@@ -10,7 +10,6 @@ export const formatMachinesCount = (count: number) =>
 export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
   const { name, machines, clusterId } = cluster;
   const machinesCount = cluster.machines.length;
-
   return (
     <div className="min-h-screen bg-background">
       <div className="sticky top-0 z-10 bg-background border-b">

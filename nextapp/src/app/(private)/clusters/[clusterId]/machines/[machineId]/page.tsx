@@ -1,5 +1,5 @@
-import { getClusterAsync } from "@/entities/cluster/services/get-cluster";
-import { ClusterContainer } from "@/features/clusters/cluster-container";
+import { getMachineAsync } from "@/entities/machine/services/get-machine";
+import { MachineDetails } from "@/features/machine/machine-details";
 import { MessageCard } from "@/shared/components/message-card";
 import { AlertTriangleIcon } from "lucide-react";
 
@@ -11,9 +11,9 @@ const MachinePage = async ({
   params: Promise<{ clusterId: string; machineId: string }>;
 }) => {
   const { clusterId, machineId } = await params;
-  const { cluster, error } = await getClusterAsync(Number(clusterId)); // TODO: getMachineAsync
+  const { machine, error } = await getMachineAsync(Number(machineId));
 
-  if (!cluster || error) {
+  if (!machine || error) {
     return (
       <MessageCard
         icon={<AlertTriangleIcon />}
@@ -22,7 +22,7 @@ const MachinePage = async ({
     );
   }
 
-  return <ClusterContainer cluster={cluster} />;
+  return <MachineDetails machine={machine} />;
 };
 
 export default MachinePage;

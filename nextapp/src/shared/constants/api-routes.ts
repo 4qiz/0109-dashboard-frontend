@@ -3,4 +3,5 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 export const apiRoutes = {
   getClusters: `${API_BASE_URL}/api/Clusters`,
   getCluster: (id: number) => `${API_BASE_URL}/api/Clusters/${id}`,
+  getMachine: (id: number) => `${API_BASE_URL}/api/Machines/${id}`,
 };

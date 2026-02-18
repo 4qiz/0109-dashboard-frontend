@@ -1,10 +1,12 @@
 import { MachineDiskDto } from "@/entities/machine/dto/machine-dto";
 import { appRoutes } from "@/shared/constants/app-routes";
+import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { console } from "inspector";
 import {
   AlertCircle,
   ChevronRight,
@@ -35,11 +37,7 @@ export function MachineCard({
   cpuCount,
   disks,
 }: MachineCardProps) {
-  const lastUpdateDate = new Date(lastUpdate);
-  const timeAgo = formatDistanceToNow(lastUpdateDate, {
-    addSuffix: true,
-    locale: ru,
-  });
+  const { formatted, timeAgo } = formatLastUpdate(lastUpdate);
 
   const hasUnhealthyDisk = disks.some(
     (disk) => disk.healthStatus !== "Healthy",
@@ -107,7 +105,9 @@ export function MachineCard({
               </div>
             </div>
 
-            <p className="text-xs text-muted-foreground">Обновлено {timeAgo}</p>
+            <p className="text-xs text-muted-foreground">
+              Обновлено {formatted} ({timeAgo})
+            </p>
           </div>
         </CardContent>
       </Card>

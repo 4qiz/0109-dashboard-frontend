@@ -15,8 +15,8 @@ export const getClusterAsync = async (
       };
     }
 
-    const data = (await response.json()) as ClusterDto[];
-    return { cluster: data[0] || null };
+    const data = (await response.json()) as ClusterDto;
+    return { cluster: data || null };
   } catch (err) {
     console.error("[getCluster] - ", err);
     return { cluster: null, error: "Ошибка при получении кластера" };
