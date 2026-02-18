@@ -10,15 +10,22 @@ import { cn } from "@/shared/lib/utils";
 import { useClusters } from "../hooks/use-clusters";
 import { appRoutes } from "../constants/app-routes";
 
-export const Sidebar = () => {
-  const params = useParams<{ clusterId?: string }>();
-  const currentClusterId = params?.clusterId;
+interface SidebarContentProps {
+  clusters: { clusterId: number; name: string }[];
+  isLoading: boolean;
+  isError: boolean;
+  currentClusterId?: string;
+  onLinkClick: () => void;
+}
 
-  const { clusters, isLoading, isError } = useClusters();
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const SidebarContent = () => (
+const SidebarContent = ({
+  clusters,
+  isLoading,
+  isError,
+  currentClusterId,
+  onLinkClick,
+}: SidebarContentProps) => {
+  return (
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="p-4 flex items-center justify-between">
@@ -31,12 +38,12 @@ export const Sidebar = () => {
           variant="ghost"
           size="icon"
           className="lg:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={onLinkClick}
         >
-          <X className="h-5 w-5 " />
+          <X className="h-5 w-5" />
         </Button>
 
-        <div className="hidden h-9 lg:block"></div>
+        <div className="hidden h-9 lg:block" />
       </div>
 
       {/* Content */}
@@ -54,13 +61,11 @@ export const Sidebar = () => {
             {clusters.map((cluster) => {
               const isActive = currentClusterId === String(cluster.clusterId);
 
-              // const machines = cluster.machinesCount ?? 0;
-
               return (
                 <Link
                   key={cluster.clusterId}
                   href={appRoutes.clustersId(cluster.clusterId)}
-                  onClick={() => setIsOpen(false)}
+                  onClick={onLinkClick}
                   className={cn(
                     "block p-3 rounded-lg transition-colors",
                     isActive
@@ -82,17 +87,6 @@ export const Sidebar = () => {
                       >
                         ID: {cluster.clusterId}
                       </Badge>
-
-                      {/* <span
-                        className={cn(
-                          "text-xs",
-                          isActive
-                            ? "text-primary-foreground/80"
-                            : "text-muted-foreground",
-                        )}
-                      >
-                        {machines} {machines === 1 ? "машина" : "машин"}
-                      </span> */}
                     </div>
                   </div>
                 </Link>
@@ -103,6 +97,16 @@ export const Sidebar = () => {
       </div>
     </div>
   );
+};
+
+export const Sidebar = () => {
+  const params = useParams<{ clusterId?: string }>();
+  const currentClusterId = params?.clusterId;
+
+  const { clusters, isLoading, isError } = useClusters();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
 
   return (
     <>
@@ -118,7 +122,7 @@ export const Sidebar = () => {
       {isOpen && (
         <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
         />
       )}
 
@@ -128,7 +132,13 @@ export const Sidebar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <SidebarContent />
+        <SidebarContent
+          clusters={clusters}
+          isLoading={isLoading}
+          isError={isError}
+          currentClusterId={currentClusterId}
+          onLinkClick={handleClose}
+        />
       </aside>
     </>
   );
