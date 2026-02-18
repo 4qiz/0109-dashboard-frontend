@@ -11,8 +11,8 @@ import { useClusters } from "../hooks/use-clusters";
 import { appRoutes } from "../constants/app-routes";
 
 export const Sidebar = () => {
-  const params = useParams<{ id?: string }>();
-  const currentClusterId = params?.id;
+  const params = useParams<{ clusterId?: string }>();
+  const currentClusterId = params?.clusterId;
 
   const { clusters, isLoading, isError } = useClusters();
 
@@ -21,7 +21,7 @@ export const Sidebar = () => {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b flex items-center justify-between">
+      <div className="p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Database className="h-6 w-6 text-primary" />
           <h2 className="text-2xl">Кластеры</h2>
@@ -54,7 +54,7 @@ export const Sidebar = () => {
             {clusters.map((cluster) => {
               const isActive = currentClusterId === String(cluster.clusterId);
 
-              const machines = cluster.machinesCount ?? 0;
+              // const machines = cluster.machinesCount ?? 0;
 
               return (
                 <Link
@@ -137,7 +137,7 @@ export const Sidebar = () => {
 const SidebarSkeleton = () => {
   return (
     <div className="space-y-2">
-      {Array.from({ length: 6 }).map((_, i) => (
+      {Array.from({ length: 1 }).map((_, i) => (
         <div key={i} className="p-3 rounded-lg border animate-pulse space-y-3">
           <div className="h-5 w-32 bg-muted rounded" />
           <div className="h-5 w-20 bg-muted rounded" />

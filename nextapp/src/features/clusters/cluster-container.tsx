@@ -1,10 +1,16 @@
 import { Server } from "lucide-react";
 import { MachineCard } from "./machine-card";
-import { MachineDto } from "@/entities/machine/dto/machine-dto";
 import { ToggleTheme } from "@/shared/components/toggle-theme";
+import { ClusterDto } from "@/entities/cluster/dto/cluster-dto";
+import { pluralizeRu } from "@/shared/lib/pluralize-ru";
 
-export const ClusterContainer = ({ machines }: { machines: MachineDto[] }) => {
-  // const { name, machines } = cluster;
+export const formatMachinesCount = (count: number) =>
+  `${count} ${pluralizeRu(count, "машина", "машины", "машин")}`;
+
+export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
+  const { name, machines, clusterId } = cluster;
+  const machinesCount = cluster.machines.length;
+
   return (
     <div className="min-h-screen bg-background">
       <div className="sticky top-0 z-10 bg-background border-b">
@@ -12,9 +18,9 @@ export const ClusterContainer = ({ machines }: { machines: MachineDto[] }) => {
           <div className="flex items-center gap-3 lg:ml-0 ml-14">
             <Server className="h-6 w-6 text-primary shrink-0" />
             <div>
-              <h1 className="text-2xl">name</h1>
+              <h1 className="text-2xl">{name}</h1>
               <p className="text-sm text-muted-foreground">
-                {machines.length} {machines.length === 1 ? "машина" : "машин"}
+                {formatMachinesCount(machinesCount)}
               </p>
             </div>
             <div className="ml-auto">
@@ -34,6 +40,7 @@ export const ClusterContainer = ({ machines }: { machines: MachineDto[] }) => {
             {machines.map((m) => (
               <MachineCard
                 key={m.idMachine}
+                idCluster={clusterId}
                 idMachine={m.idMachine}
                 hostname={m.hostname}
                 platform={m.platform}

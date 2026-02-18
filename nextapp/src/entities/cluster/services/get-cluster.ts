@@ -5,8 +5,6 @@ import { MachineDto } from "@/entities/machine/dto/machine-dto";
 export const getClusterAsync = async (
   id: number,
 ): Promise<{ cluster: ClusterDto | null; error?: string }> => {
-
-
   try {
     const response = await fetch(apiRoutes.getCluster(id));
 
@@ -17,8 +15,8 @@ export const getClusterAsync = async (
       };
     }
 
-    const data = (await response.json()) as ClusterDto;
-    return { cluster: data };
+    const data = (await response.json()) as ClusterDto[];
+    return { cluster: data[0] || null };
   } catch (err) {
     console.error("[getCluster] - ", err);
     return { cluster: null, error: "Ошибка при получении кластера" };
@@ -28,8 +26,6 @@ export const getClusterAsync = async (
 export const getCluster2Async = async (
   id: number,
 ): Promise<{ cluster: MachineDto[] | null; error?: string }> => {
-
-
   try {
     const response = await fetch(apiRoutes.getCluster(id));
 

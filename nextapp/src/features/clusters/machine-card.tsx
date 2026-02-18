@@ -1,4 +1,5 @@
 import { MachineDiskDto } from "@/entities/machine/dto/machine-dto";
+import { appRoutes } from "@/shared/constants/app-routes";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
@@ -14,6 +15,7 @@ import {
 import Link from "next/link";
 
 interface MachineCardProps {
+  idCluster: number;
   idMachine: number;
   hostname: string;
   platform: string;
@@ -24,6 +26,7 @@ interface MachineCardProps {
 }
 
 export function MachineCard({
+  idCluster,
   idMachine,
   hostname,
   platform,
@@ -43,7 +46,10 @@ export function MachineCard({
   );
 
   return (
-    <Link href={`/machine/${idMachine}`} className="block">
+    <Link
+      href={appRoutes.machine(Number(idCluster), Number(idMachine))}
+      className="block"
+    >
       <Card
         className={cn(
           "hover:shadow-lg transition-shadow cursor-pointer",
