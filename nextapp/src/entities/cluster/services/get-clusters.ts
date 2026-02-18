@@ -10,8 +10,6 @@ export const getClustersAsync = async (): Promise<{
     throw new Error("NEXT_PUBLIC_API_URL is undefined");
   }
 
-  const queryParams = new URLSearchParams();
-
   try {
     const response = await fetch(apiRoutes.getClusters);
 

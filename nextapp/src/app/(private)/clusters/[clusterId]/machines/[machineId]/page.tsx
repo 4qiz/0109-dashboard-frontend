@@ -22,7 +22,7 @@ const MachinePage = async ({
     );
   }
 
-  return <MachineDetails machine={machine} />;
+  return <MachineDetails machine={machine} idCluster={Number(clusterId)} />;
 };
 
 export default MachinePage;

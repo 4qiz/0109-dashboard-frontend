@@ -1,12 +1,11 @@
 import { MachineDiskDto } from "@/entities/machine/dto/machine-dto";
 import { appRoutes } from "@/shared/constants/app-routes";
 import { formatLastUpdate } from "@/shared/lib/format-last-update";
+import { pluralizeRu } from "@/shared/lib/pluralize-ru";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
-import { console } from "inspector";
+
 import {
   AlertCircle,
   ChevronRight,
@@ -15,6 +14,9 @@ import {
   Monitor,
 } from "lucide-react";
 import Link from "next/link";
+
+export const formatDisksCount = (count: number) =>
+  `${count} ${pluralizeRu(count, "диск", "диска", "дисков")}`;
 
 interface MachineCardProps {
   idCluster: number;
@@ -39,9 +41,24 @@ export function MachineCard({
 }: MachineCardProps) {
   const { formatted, timeAgo } = formatLastUpdate(lastUpdate);
 
+  // Определяем наличие проблемных дисков
   const hasUnhealthyDisk = disks.some(
-    (disk) => disk.healthStatus !== "Healthy",
+    (disk) => disk.operationalStatus !== "OK",
   );
+
+  // Функция для цвета индикатора диска
+  const getDiskColor = (status: string) => {
+    switch (status) {
+      case "OK":
+        return "bg-green-500";
+      case "WARNING":
+        return "bg-yellow-500";
+      case "CRITICAL":
+        return "bg-red-500";
+      default:
+        return "bg-gray-400";
+    }
+  };
 
   return (
     <Link
@@ -81,7 +98,7 @@ export function MachineCard({
               <div className="flex items-center gap-1.5">
                 <HardDrive className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">
-                  {diskCount} {diskCount === 1 ? "диск" : "дисков"}
+                  {formatDisksCount(diskCount)}
                 </span>
               </div>
             </div>
@@ -95,11 +112,9 @@ export function MachineCard({
                     key={disk.idDisk}
                     className={cn(
                       "w-3 h-3 rounded-full",
-                      disk.healthStatus === "Healthy"
-                        ? "bg-green-500"
-                        : "bg-red-500",
+                      getDiskColor(disk.operationalStatus),
                     )}
-                    title={`${disk.name} - ${disk.healthStatus}`}
+                    title={`${disk.name} - ${disk.operationalStatus}`}
                   />
                 ))}
               </div>

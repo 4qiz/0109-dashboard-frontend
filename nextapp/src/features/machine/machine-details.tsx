@@ -8,7 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
 import { Info, Monitor } from "lucide-react";
 
-export const MachineDetails = ({ machine }: { machine: MachineDto }) => {
+export const MachineDetails = ({
+  machine,
+  idCluster,
+}: {
+  idCluster: number;
+  machine: MachineDto;
+}) => {
   const { formatted, timeAgo } = formatLastUpdate(machine.lastUpdate);
 
   return (
@@ -114,6 +120,8 @@ export const MachineDetails = ({ machine }: { machine: MachineDto }) => {
           </h2>
           {machine.disks.map((disk) => (
             <DiskCard
+              idCluster={idCluster}
+              idMachine={machine.idMachine}
               key={disk.idDisk}
               idDisk={disk.idDisk}
               name={disk.name}
