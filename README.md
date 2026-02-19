@@ -1,20 +1,65 @@
-## Production
+<br />
+<div align="center">
 
-Multistage builds are highly recommended in production. Combined with the Next [Output Standalone](https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files) feature, only `node_modules` files required for production are copied into the final Docker image.
+  <h2 align="center"> Computer Lab Monitoring System</h2>
 
-First, run the production server (Final image approximately 110 MB).
+  <p align="center">
+    A web application for monitoring the status and availability of computer classrooms
+    <br />
+  </p>
+  <a>
+    <img src="./readme/main.png" alt="main">
+  </a>
+  <br />
+  </p>
+    <a>
+    <img src="./readme/volumes.png" alt="main">
+  </a>
+</div>
+
+---
+
+## Tech Stack
+
+**Frontend:**
+
+- Next.js 16
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+
+## Developer mode
+
+1. Install packages
 
 ```bash
-# Build prod
-docker compose up --build
+npm i
 ```
 
-## Useful commands
+2. Run the development server:
 
 ```bash
-# Stop all running containers
-docker kill $(docker ps -aq) && docker rm $(docker ps -aq)
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-# Free space
-docker system prune -af --volumes
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Production mode
+
+1. Create .env file
+
+```.env
+NEXT_PUBLIC_API_URL=https://example.ru
+```
+
+2. Start
+
+```
+docker compose up -d --build
 ```
