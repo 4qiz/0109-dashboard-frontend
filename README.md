@@ -8,12 +8,12 @@
     <br />
   </p>
   <a>
-    <img src="./readme/main.png" alt="main">
+    <img src="./readme/main.PNG" alt=".">
   </a>
   <br />
   </p>
     <a>
-    <img src="./readme/volumes.png" alt="main">
+    <img src="./readme/volumes.PNG" alt=".">
   </a>
 </div>
 
