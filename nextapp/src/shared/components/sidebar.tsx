@@ -7,24 +7,22 @@ import Link from "next/link";
 import { Button } from "@/shared/ui/button";
 import { Badge } from "@/shared/ui/badge";
 import { cn } from "@/shared/lib/utils";
-import { useClusters } from "../hooks/use-clusters";
 import { appRoutes } from "../constants/app-routes";
+import { ClusterListDto } from "@/entities/cluster/dto/cluster-list-dto";
 
 interface SidebarContentProps {
   clusters: { clusterId: number; name: string }[];
-  isLoading: boolean;
-  isError: boolean;
   currentClusterId?: string;
   onLinkClick: () => void;
 }
 
 const SidebarContent = ({
   clusters,
-  isLoading,
-  isError,
   currentClusterId,
   onLinkClick,
 }: SidebarContentProps) => {
+  const hasClusters = clusters.length > 0;
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
@@ -48,15 +46,15 @@ const SidebarContent = ({
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-3">
-        {isLoading && <SidebarSkeleton />}
-
-        {isError && (
-          <div className="text-sm text-destructive p-2">
-            Не удалось загрузить кластеры
+        {!hasClusters && (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-sm text-muted-foreground text-center">
+              Нет доступных кластеров
+            </p>
           </div>
         )}
 
-        {!isLoading && !isError && (
+        {hasClusters && (
           <nav className="space-y-2">
             {clusters.map((cluster) => {
               const isActive = currentClusterId === String(cluster.clusterId);
@@ -99,13 +97,15 @@ const SidebarContent = ({
   );
 };
 
-export const Sidebar = () => {
+interface SidebarProps {
+  clusters: ClusterListDto[];
+}
+
+export const Sidebar = ({ clusters }: SidebarProps) => {
   const params = useParams<{ clusterId?: string }>();
   const currentClusterId = params?.clusterId;
 
-  const { clusters, isLoading, isError } = useClusters();
   const [isOpen, setIsOpen] = useState(false);
-
   const handleClose = () => setIsOpen(false);
 
   return (
@@ -134,8 +134,6 @@ export const Sidebar = () => {
       >
         <SidebarContent
           clusters={clusters}
-          isLoading={isLoading}
-          isError={isError}
           currentClusterId={currentClusterId}
           onLinkClick={handleClose}
         />
