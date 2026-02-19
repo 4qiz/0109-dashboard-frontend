@@ -1,7 +1,8 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistance } from "date-fns";
 import { ru } from "date-fns/locale";
 
 export function formatLastUpdate(lastUpdate: string | Date) {
+
   const date = new Date(lastUpdate);
 
   const formatted = date.toLocaleString("ru-RU", {
@@ -14,10 +15,14 @@ export function formatLastUpdate(lastUpdate: string | Date) {
     second: "2-digit",
   });
 
-  const timeAgo = formatDistanceToNow(date, {
-    addSuffix: true,
-    locale: ru,
-  });
+const MSK_OFFSET = 3 * 60 * 60 * 1000;
+
+const nowMsk = new Date(Date.now() + MSK_OFFSET);
+
+const timeAgo = formatDistance(date, nowMsk, {
+  addSuffix: true,
+  locale: ru,
+});
 
   return {
     formatted,

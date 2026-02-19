@@ -16,15 +16,15 @@ export const MachineDetails = ({
   idCluster: number;
   machine: MachineDto;
 }) => {
-  const { formatted, timeAgo } = formatLastUpdate(machine.lastUpdate);
+  const { timeAgo } = formatLastUpdate(machine.lastUpdate);
 
   return (
     <div className="min-h-screen bg-background">
       <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="container max-w-4xl mx-auto px-4 py-4">
-          <div className="space-y-3">
-            <BackButton />
-            <div className="flex items-center gap-3">
+        <div className="container max-w-4xl mx-auto px-4 lg:px-6 py-2">
+          <div className="space-y-3 ">
+            <BackButton className="hidden lg:flex" />
+            <div className="flex items-center gap-3 lg:ml-0 ml-14">
               <Monitor className="h-6 w-6 text-primary" />
               <div className="flex-1 min-w-0">
                 <h1 className="text-2xl truncate">{machine.hostname}</h1>
@@ -75,9 +75,6 @@ export const MachineDetails = ({
                   Последнее обновление
                 </p>
                 <p className="text-sm">{timeAgo}</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {formatted}
-                </p>
               </div>
             </div>
           </CardContent>

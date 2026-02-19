@@ -56,7 +56,10 @@ export function VolumeChartCard({ volume }: VolumeChartCardProps) {
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <HardDrive className="h-4 w-4 text-muted-foreground shrink-0" />
             <CardTitle className="text-base truncate">
-              {getVolumeLabel()}
+              Раздел {volume.partitionNumber}
+              {volume.letter && (
+                <Badge className="ml-2">{`${volume.letter}:\\`}</Badge>
+              )}
             </CardTitle>
           </div>
           <Badge variant="outline" className="shrink-0">

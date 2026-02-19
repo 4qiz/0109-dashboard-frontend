@@ -28,10 +28,10 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
   return (
     <div className="min-h-screen bg-background">
       <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="container max-w-4xl mx-auto px-4 py-4">
+        <div className="container max-w-4xl mx-auto px-4 lg:px-6 py-2">
           <div className="space-y-3">
             <BackButton className="hidden lg:flex" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 lg:ml-0 ml-14">
               <HardDrive className="h-6 w-6 text-primary" />
               <div className="flex-1 min-w-0">
                 <h1 className="text-2xl truncate">{disk.name}</h1>
@@ -77,7 +77,7 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Database className="h-5 w-5" />
-              <h2 className="text-xl">Разделы диска</h2>
+              <h2 className="text-xl">Тома</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               {disk.diskVolumes.map((volume) => (

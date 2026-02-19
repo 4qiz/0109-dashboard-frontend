@@ -33,19 +33,19 @@
   position: absolute;
   width: 17px;
   top: 50%;
-  animation: tail 0.5s ease-in infinite alternate-reverse;
-  transform-origin: top;
+  transform-origin: top center;
+  animation: tail 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
 }
 
 @keyframes tail {
   0% {
-    transform: rotateZ(60deg);
+    transform: rotateZ(25deg);
   }
   50% {
-    transform: rotateZ(0deg);
+    transform: rotateZ(-25deg);
   }
   100% {
-    transform: rotateZ(-20deg);
+    transform: rotateZ(25deg);
   }
 }
 .wall {
