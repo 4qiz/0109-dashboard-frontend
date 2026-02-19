@@ -6,10 +6,11 @@ export interface DiskPropertyDto {
 export interface DiskDto {
   idDisk: number;
   name: string;
+  masterComputer: string;
   serial: string;
   busType: string;
   diskType: string;
   healthStatus: string;
   operationalStatus: "OK" | "WARNING" | "CRITICAL";
-  props: DiskPropertyDto[];
+  diskProperties: DiskPropertyDto[];
 }

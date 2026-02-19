@@ -12,7 +12,7 @@ const DiskPage = async ({
 }) => {
   const { diskId } = await params;
   const { disk, error } = await getDiskAsync(Number(diskId));
-
+  console.log("DiskPage params:", disk);
   if (!disk || error) {
     return (
       <MessageCard

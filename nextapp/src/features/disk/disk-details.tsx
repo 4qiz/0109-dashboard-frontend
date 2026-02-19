@@ -5,7 +5,7 @@ import { Badge } from "@/shared/ui/badge";
 import { HardDrive, Info } from "lucide-react";
 
 export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
-  const properties = disk.props;
+  const properties = disk.diskProperties;
 
   const getHealthColor = (status: string) => {
     if (status.toLowerCase() === "healthy" || status.toLowerCase() === "ok") {
@@ -50,11 +50,12 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
             <Badge variant="secondary">{disk.operationalStatus}</Badge>
           </div>
 
-          {/* {machineName && (
+          {disk.masterComputer && (
             <p className="text-sm text-muted-foreground">
-              Установлен на: <span className="text-foreground">{machineName}</span>
+              Установлен на:{" "}
+              <span className="text-foreground">{disk.masterComputer}</span>
             </p>
-          )} */}
+          )}
         </div>
 
         {/* All Properties */}
