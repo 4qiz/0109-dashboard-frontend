@@ -24,16 +24,8 @@ export function DiskCard({
   serial,
   busType,
   diskType,
-  healthStatus,
   operationalStatus,
 }: DiskCardProps) {
-  const getHealthColor = (status: string) => {
-    if (status.toLowerCase() === "healthy" || status.toLowerCase() === "ok") {
-      return "bg-green-500/10 text-green-700 dark:text-green-400";
-    }
-    return "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400";
-  };
-
   const getOperationalColor = (status: string) => {
     switch (status.toUpperCase()) {
       case "OK":
@@ -69,9 +61,7 @@ export function DiskCard({
           <div className="flex flex-wrap gap-2">
             <Badge variant="outline">{busType}</Badge>
             {diskType && <Badge variant="outline">{diskType}</Badge>}
-            <Badge className={getHealthColor(healthStatus)}>
-              {healthStatus}
-            </Badge>
+
             <Badge className={getOperationalColor(operationalStatus)}>
               {operationalStatus}
             </Badge>

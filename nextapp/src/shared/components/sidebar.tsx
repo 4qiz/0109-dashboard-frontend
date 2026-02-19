@@ -142,15 +142,15 @@ export const Sidebar = ({ clusters }: SidebarProps) => {
   );
 };
 
-const SidebarSkeleton = () => {
-  return (
-    <div className="space-y-2">
-      {Array.from({ length: 1 }).map((_, i) => (
-        <div key={i} className="p-3 rounded-lg border animate-pulse space-y-3">
-          <div className="h-5 w-32 bg-muted rounded" />
-          <div className="h-5 w-20 bg-muted rounded" />
-        </div>
-      ))}
-    </div>
-  );
-};
+// const SidebarSkeleton = () => {
+//   return (
+//     <div className="space-y-2">
+//       {Array.from({ length: 1 }).map((_, i) => (
+//         <div key={i} className="p-3 rounded-lg border animate-pulse space-y-3">
+//           <div className="h-5 w-32 bg-muted rounded" />
+//           <div className="h-5 w-20 bg-muted rounded" />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };

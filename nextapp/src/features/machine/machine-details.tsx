@@ -2,6 +2,7 @@ import { MachineDto } from "@/entities/machine/dto/machine-dto";
 import { BackButton } from "@/shared/components/back-button";
 import { DiskCard } from "@/shared/components/disc-card";
 import { PropertyList } from "@/shared/components/property-list";
+import { ToggleTheme } from "@/shared/components/toggle-theme";
 import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
@@ -30,6 +31,9 @@ export const MachineDetails = ({
                 <p className="text-sm text-muted-foreground">
                   ID: {machine.idMachine}
                 </p>
+              </div>
+              <div className="ml-auto">
+                <ToggleTheme />
               </div>
             </div>
           </div>

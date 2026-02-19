@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
 
 type BackButtonProps = {
   fallbackHref?: string; // если нет истории
@@ -27,7 +28,10 @@ export function BackButton({
   return (
     <button
       onClick={handleBack}
-      className={`inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors ${className}`}
+      className={cn(
+        "inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground cursor-pointer transition-colors",
+        className,
+      )}
       type="button"
     >
       <ArrowLeft className="h-4 w-4" />
