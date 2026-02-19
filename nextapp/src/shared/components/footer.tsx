@@ -175,6 +175,7 @@ export function Footer() {
               ></line>
             </svg>
           </div>
+          <p className="text-sm text-muted-foreground p-1">Hahatun❤️JSM</p>
         </div>
       </div>
     </footer>
