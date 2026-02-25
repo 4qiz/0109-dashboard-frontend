@@ -7,7 +7,8 @@ import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { Info, Monitor } from "lucide-react";
+import { Info, MemoryStick, Monitor } from "lucide-react";
+import { MemorySlotsCard } from "./memory-slots-card";
 
 export const MachineDetails = ({
   machine,
@@ -89,6 +90,7 @@ export const MachineDetails = ({
           {machine.cpus.map((cpu) => (
             <PropertyList
               key={cpu.systemDeviceId}
+              collapsed
               title={cpu.name}
               properties={[
                 { propertyName: "Device ID", value: cpu.systemDeviceId },
@@ -112,6 +114,25 @@ export const MachineDetails = ({
             />
           ))}
         </div>
+
+        {/* Memory */}
+        {machine.memoryUnits && machine.memoryUnits.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-xl flex items-center gap-2">
+              <MemoryStick className="h-5 w-5" />
+              Память
+              <Badge variant="secondary">
+                {machine.memoryUnitsCount || machine.memoryUnits.length} /{" "}
+                {machine.memorySlotsCount || 4}
+              </Badge>
+            </h2>
+            <MemorySlotsCard
+              memoryUnits={machine.memoryUnits}
+              totalSlots={machine.memorySlotsCount || 4}
+              maxCapacityKB={machine.maxMemoryCapacity}
+            />
+          </div>
+        )}
 
         {/* Disks */}
         <div className="space-y-4">

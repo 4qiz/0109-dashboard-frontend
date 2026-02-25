@@ -17,7 +17,7 @@ const MachinePage = async ({
     return (
       <MessageCard
         icon={<AlertTriangleIcon />}
-        message={error || "Кластер не найден"}
+        message={error || "ПК не найден"}
       />
     );
   }

@@ -4,9 +4,13 @@ export interface MachineDto {
   systemName: string;
   platform: string;
   uefiUUID: string;
+  memorySlotsCount?: number;
+  memoryUnitsCount?: number;
+  maxMemoryCapacity?: number;
   lastUpdate: string; // ISO date
   disks: MachineDiskDto[];
   cpus: CpuDto[];
+  memoryUnits?: MemoryUnitDto[];
 }
 
 export interface MachineDiskDto {
@@ -29,4 +33,16 @@ export interface CpuDto {
   socketDesignation: string;
   cpuHardwareId: string;
   isVirtualisationEnabled: boolean;
+}
+
+export interface MemoryUnitDto {
+  slot: number;
+  deviceLocator: string;
+  capacityGB: number;
+  speedMhz: number;
+  manufacturer: string;
+  partNumber: string;
+  serialNumber: string;
+  memoryType: string;
+  formFactor: string;
 }
