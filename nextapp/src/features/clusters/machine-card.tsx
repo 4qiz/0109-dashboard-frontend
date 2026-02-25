@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Cpu,
   HardDrive,
+  MemoryStick,
   Monitor,
 } from "lucide-react";
 import Link from "next/link";
@@ -27,6 +28,9 @@ interface MachineCardProps {
   diskCount: number;
   cpuCount: number;
   disks: MachineDiskDto[];
+  memoryGB?: number;
+  memoryUnitsCount?: number;
+  memorySlotsCount?: number;
 }
 
 export function MachineCard({
@@ -36,10 +40,13 @@ export function MachineCard({
   platform,
   lastUpdate,
   diskCount,
+  memoryGB,
   cpuCount,
   disks,
+  memorySlotsCount,
+  memoryUnitsCount,
 }: MachineCardProps) {
-  const { timeAgo } = formatLastUpdate(lastUpdate);
+  const { timeAgo, formatted } = formatLastUpdate(lastUpdate);
 
   // Определяем наличие проблемных дисков
   const hasUnhealthyDisk = disks.some(
@@ -50,13 +57,13 @@ export function MachineCard({
   const getDiskColor = (status: string) => {
     switch (status) {
       case "OK":
-        return "bg-green-500";
+        return "bg-green-500 border-green-600 dark:bg-green-400";
       case "WARNING":
-        return "bg-yellow-500";
+        return "bg-yellow-500 border-yellow-600 dark:bg-yellow-400";
       case "CRITICAL":
-        return "bg-red-500";
+        return "bg-red-500 border-red-600 dark:bg-red-400";
       default:
-        return "bg-gray-400";
+        return "bg-gray-400 border-gray-600 dark:bg-gray-500";
     }
   };
 
@@ -67,7 +74,7 @@ export function MachineCard({
     >
       <Card
         className={cn(
-          "hover:shadow-lg transition-shadow cursor-pointer",
+          "hover:shadow-lg transition-shadow cursor-pointer gap-0",
           hasUnhealthyDisk && "border-destructive bg-destructive/5",
         )}
       >
@@ -95,6 +102,12 @@ export function MachineCard({
                 <Cpu className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">{cpuCount} CPU</span>
               </div>
+              {memoryGB && (
+                <div className="flex items-center gap-1.5">
+                  <MemoryStick className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">{memoryGB} ГБ</span>
+                </div>
+              )}
               <div className="flex items-center gap-1.5">
                 <HardDrive className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">
@@ -102,6 +115,29 @@ export function MachineCard({
                 </span>
               </div>
             </div>
+
+            {/* Memory Slots Indicators */}
+            {memoryUnitsCount !== undefined &&
+              memorySlotsCount !== undefined && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">ОЗУ:</span>
+                  <div className="flex gap-1">
+                    {Array.from({ length: memorySlotsCount }).map(
+                      (_, index) => (
+                        <div
+                          key={index}
+                          className={cn(
+                            "w-2 h-4 rounded-sm border transition-colors",
+                            index < memoryUnitsCount
+                              ? "bg-green-500/90 border-green-500"
+                              : "bg-muted border-ring",
+                          )}
+                        />
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
 
             {/* Disk Status Indicators */}
             <div className="flex items-center gap-2">
@@ -111,7 +147,7 @@ export function MachineCard({
                   <div
                     key={disk.idDisk}
                     className={cn(
-                      "w-3 h-3 rounded-full",
+                      "w-3 h-3 rounded-full ",
                       getDiskColor(disk.operationalStatus),
                     )}
                     title={`${disk.name} - ${disk.operationalStatus}`}
@@ -120,7 +156,9 @@ export function MachineCard({
               </div>
             </div>
 
-            <p className="text-xs text-muted-foreground">Обновлено {timeAgo}</p>
+            <p className="text-xs text-muted-foreground" title={formatted}>
+              Обновлено {timeAgo}
+            </p>
           </div>
         </CardContent>
       </Card>

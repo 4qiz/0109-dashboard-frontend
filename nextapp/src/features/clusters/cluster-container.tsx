@@ -37,7 +37,12 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
           </div>
         ) : (
           <div className="space-y-4">
-            {machines.map((m) => (
+            {machines.map((m) => {
+              const totalMemoryGB = m.memoryUnits 
+                ? m.memoryUnits.reduce((sum, unit) => sum + unit.capacityGB, 0)
+                : undefined;
+              
+              return (
               <MachineCard
                 key={m.idMachine}
                 idCluster={clusterId}
@@ -48,8 +53,11 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
                 diskCount={m.disks.length}
                 cpuCount={m.cpus.length}
                 disks={m.disks}
+                memoryGB={totalMemoryGB}
+                memoryUnitsCount={m.memoryUnitsCount}
+                memorySlotsCount={m.memorySlotsCount}
               />
-            ))}
+            )})}
           </div>
         )}
       </div>
