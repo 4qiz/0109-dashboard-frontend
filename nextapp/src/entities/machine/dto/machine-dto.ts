@@ -36,8 +36,7 @@ export interface CpuDto {
 }
 
 export interface MemoryUnitDto {
-  slot: number;
-  deviceLocator: string;
+  slot: string;
   capacityGB: number;
   speedMhz: number;
   manufacturer: string;
