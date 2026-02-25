@@ -39,7 +39,7 @@ export function MachineCard({
   cpuCount,
   disks,
 }: MachineCardProps) {
-  const {  timeAgo } = formatLastUpdate(lastUpdate);
+  const { timeAgo } = formatLastUpdate(lastUpdate);
 
   // Определяем наличие проблемных дисков
   const hasUnhealthyDisk = disks.some(
@@ -120,9 +120,7 @@ export function MachineCard({
               </div>
             </div>
 
-            <p className="text-xs text-muted-foreground">
-              Обновлено {timeAgo}
-            </p>
+            <p className="text-xs text-muted-foreground">Обновлено {timeAgo}</p>
           </div>
         </CardContent>
       </Card>

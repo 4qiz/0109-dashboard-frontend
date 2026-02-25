@@ -108,15 +108,15 @@ function MemorySlotCard({
   const colorClasses = {
     blue: {
       bg: "bg-blue-500/5",
-      border: "border-blue-500/30",
+      border: "border-blue-500/20",
       text: "text-blue-600 dark:text-blue-400",
-      gradient: "from-blue-500/20 to-blue-600/10",
+      gradient: "from-blue-500/10 to-blue-600/5",
     },
     purple: {
       bg: "bg-purple-500/5",
-      border: "border-purple-500/30",
+      border: "border-purple-500/20",
       text: "text-purple-600 dark:text-purple-400",
-      gradient: "from-purple-500/20 to-purple-600/10",
+      gradient: "from-purple-500/10 to-purple-600/5",
     },
   };
 
@@ -124,9 +124,7 @@ function MemorySlotCard({
 
   if (!unit) {
     return (
-      <div
-        className={`p-4 rounded-xl border-2 border-dashed border-muted-foreground/20 bg-muted/30`}
-      >
+      <div className="p-4 rounded-xl border-2 border-dashed border-muted-foreground/20 bg-muted/30">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-12 h-16 rounded-lg border-2 border-dashed border-muted-foreground/20 flex items-center justify-center">
@@ -146,11 +144,15 @@ function MemorySlotCard({
 
   return (
     <div
-      className={`rounded-xl border-2 ${colors.border} bg-linear-to-br ${colors.gradient} overflow-hidden transition-all`}
+      className={cn(
+        `rounded-xl border-2  bg-linear-to-br overflow-hidden transition-all`,
+        colors.border,
+        colors.gradient,
+      )}
     >
       <button
         onClick={onToggle}
-        className="w-full p-4 text-left hover:bg-white/5 transition-colors"
+        className="w-full p-4 text-left hover:bg-white/5 transition-colors cursor-pointer"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -179,7 +181,7 @@ function MemorySlotCard({
             {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <span className={`text-sm font-bold ${colors.text}`}>
+                <span className={cn("text-sm font-bold", colors.text)}>
                   {unit.deviceLocator}
                 </span>
                 <Badge variant="outline" className="text-xs">
