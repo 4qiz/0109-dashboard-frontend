@@ -9,9 +9,13 @@ export const getMachineAsync = async (
     const response = await authFetch(apiRoutes.getMachine(id));
 
     if (!response.ok) {
+      console.error(
+        "[getMachine] -",
+        `${response.status} - ${response.statusText}`,
+      );
       return {
         machine: null,
-        error: `Ошибка ${response.status}: ${response.statusText}`,
+        error: `Ошибка при получении машины`,
       };
     }
 

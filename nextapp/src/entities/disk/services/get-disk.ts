@@ -9,9 +9,13 @@ export const getDiskAsync = async (
     const response = await authFetch(apiRoutes.getDisk(id));
 
     if (!response.ok) {
+      console.error(
+        "[getDisk] -",
+        `${response.status} - ${response.statusText}`,
+      );
       return {
         disk: null,
-        error: `Ошибка ${response.status}: ${response.statusText}`,
+        error: `Ошибка при получении диска`,
       };
     }
 

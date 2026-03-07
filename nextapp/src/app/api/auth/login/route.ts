@@ -2,6 +2,7 @@ import { apiRoutes } from "@/shared/constants/api-routes";
 import { setAuthCookies } from "@/shared/lib/auth/auth-server";
 import { NextResponse } from "next/server";
 
+// /api/auth/login
 export async function POST(req: Request) {
   const body = await req.json();
 

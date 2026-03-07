@@ -1,3 +1,5 @@
+export const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "";
+
 export const appRoutes = {
   home: () => `/`,
   login: "/login",
@@ -8,8 +10,8 @@ export const appRoutes = {
   disk: (clusterId: number, machineId: number, diskId: number) =>
     `/clusters/${clusterId}/machines/${machineId}/disks/${diskId}`,
 
-  apiLogin: `/api/auth/login`,
-  apiRefresh: `/api/auth/refresh`,
-  apiMe: "/api/auth/me",
-  apiLogout: "/api/auth/logout",
+  apiLogin: `${APP_BASE_URL}/api/auth/login`,
+  apiRefresh: `${APP_BASE_URL}/api/auth/refresh`,
+  apiMe: `${APP_BASE_URL}/api/auth/me`,
+  apiLogout: `${APP_BASE_URL}/api/auth/logout`,
 };

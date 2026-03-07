@@ -15,6 +15,10 @@ export const getClustersAsync = async (): Promise<{
     const response = await authFetch(apiRoutes.getClusters);
 
     if (!response.ok) {
+      console.error(
+        "[getClusters] -",
+        `${response.status} - ${response.statusText}`,
+      );
       return { clusters: [], error: "Ошибка при получении кластеров" };
     }
 

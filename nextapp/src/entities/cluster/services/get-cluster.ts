@@ -9,9 +9,13 @@ export const getClusterAsync = async (
     const response = await authFetch(apiRoutes.getCluster(id));
 
     if (!response.ok) {
+      console.error(
+        "[getCluster] -",
+        `${response.status} - ${response.statusText}`,
+      );
       return {
         cluster: null,
-        error: `Ошибка ${response.status}: ${response.statusText}`,
+        error: `Ошибка при получении кластера`,
       };
     }
 
