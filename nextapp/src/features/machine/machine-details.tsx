@@ -7,8 +7,9 @@ import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { Info, MemoryStick, Monitor } from "lucide-react";
+import { Info, MemoryStick, Monitor, Network } from "lucide-react";
 import { MemorySlotsCard } from "./memory-slots-card";
+import { NICCard } from "./nic-card";
 
 export const MachineDetails = ({
   machine,
@@ -155,6 +156,20 @@ export const MachineDetails = ({
             />
           ))}
         </div>
+
+        {/* Network Interfaces */}
+        {machine.nics && machine.nics.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-xl flex items-center gap-2">
+              <Network className="h-5 w-5" />
+              Сетевые интерфейсы
+              <Badge variant="secondary">{machine.nics.length}</Badge>
+            </h2>
+            {machine.nics.map((nic, index) => (
+              <NICCard key={`${nic.macAddress}-${index}`} nic={nic} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ export interface MachineDto {
   disks: MachineDiskDto[];
   cpus: CpuDto[];
   memoryUnits?: MemoryUnitDto[];
+  nics?: NicDto[];
 }
 
 export interface MachineDiskDto {
@@ -44,4 +45,15 @@ export interface MemoryUnitDto {
   serialNumber: string;
   memoryType: string;
   formFactor: string;
+}
+
+export interface NicDto {
+  macAddress: string;
+  idMachine?: number;
+  status: string;
+  linkSpeed: string;
+  mediaType: string;
+  name: string;
+  driverInfo: string;
+  description: string;
 }

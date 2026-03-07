@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 const ACCESS_COOKIE = "accessToken";
 const REFRESH_COOKIE = "refreshToken";
 
-// 12 часов
+// 5 минут
 const ACCESS_MAX_AGE = 60 * 5;
 
 // 48 часов
