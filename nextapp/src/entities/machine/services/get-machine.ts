@@ -1,11 +1,12 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { MachineDto } from "../dto/machine-dto";
+import { authFetch } from "@/shared/lib/auth/auth-fetch";
 
 export const getMachineAsync = async (
   id: number,
 ): Promise<{ machine: MachineDto | null; error?: string }> => {
   try {
-    const response = await fetch(apiRoutes.getMachine(id));
+    const response = await authFetch(apiRoutes.getMachine(id));
 
     if (!response.ok) {
       return {

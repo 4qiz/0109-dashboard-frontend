@@ -1,5 +1,6 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { ClusterListDto } from "../dto/cluster-list-dto";
+import { authFetch } from "@/shared/lib/auth/auth-fetch";
 
 export const getClustersAsync = async (): Promise<{
   clusters: ClusterListDto[];
@@ -11,7 +12,7 @@ export const getClustersAsync = async (): Promise<{
   }
 
   try {
-    const response = await fetch(apiRoutes.getClusters);
+    const response = await authFetch(apiRoutes.getClusters);
 
     if (!response.ok) {
       return { clusters: [], error: "Ошибка при получении кластеров" };

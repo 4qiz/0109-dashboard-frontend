@@ -10,7 +10,7 @@ export const MessageCard = ({
   icon?: React.ReactNode;
 }) => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center h-screen">
       <Card className="w-full md:w-80">
         <CardContent className="flex flex-col justify-center items-center gap-3 p-6">
           {icon || <InfoIcon />}
