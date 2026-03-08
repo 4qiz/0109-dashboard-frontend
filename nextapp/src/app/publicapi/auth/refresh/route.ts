@@ -1,6 +1,10 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { appRoutes } from "@/shared/constants/app-routes";
-import { getRefreshToken, setAuthCookies } from "@/shared/lib/auth/auth-server";
+import {
+  clearAuthCookies,
+  getRefreshToken,
+  setAuthCookies,
+} from "@/shared/lib/auth/auth-server";
 import { NextRequest, NextResponse } from "next/server";
 
 // /api/auth/refresh
@@ -21,6 +25,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (!res.ok) {
+      await clearAuthCookies();
       return NextResponse.redirect(new URL(appRoutes.login, req.url));
     }
 
@@ -33,6 +38,7 @@ export async function GET(req: NextRequest) {
     return response;
   } catch (error) {
     console.error("Refresh token error:", error);
+    await clearAuthCookies();
     return NextResponse.redirect(new URL(appRoutes.login, req.url));
   }
 }
