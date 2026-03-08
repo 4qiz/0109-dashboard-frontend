@@ -31,6 +31,7 @@ interface MachineCardProps {
   memoryGB?: number;
   memoryUnitsCount?: number;
   memorySlotsCount?: number;
+  macAddresses?: string[];
 }
 
 export function MachineCard({
@@ -45,6 +46,7 @@ export function MachineCard({
   disks,
   memorySlotsCount,
   memoryUnitsCount,
+  macAddresses,
 }: MachineCardProps) {
   const { timeAgo, formatted } = formatLastUpdate(lastUpdate);
 
@@ -90,6 +92,12 @@ export function MachineCard({
               </div>
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline">{platform}</Badge>
+                {macAddresses &&
+                  macAddresses.map((mac) => (
+                    <Badge key={mac} variant="outline">
+                      {mac}
+                    </Badge>
+                  ))}
               </div>
             </div>
             <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />

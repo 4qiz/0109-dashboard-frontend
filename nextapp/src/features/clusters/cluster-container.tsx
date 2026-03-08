@@ -38,26 +38,32 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
         ) : (
           <div className="space-y-4">
             {machines.map((m) => {
-              const totalMemoryGB = m.memoryUnits 
+              const totalMemoryGB = m.memoryUnits
                 ? m.memoryUnits.reduce((sum, unit) => sum + unit.capacityGB, 0)
                 : undefined;
-              
+
+              const macAddresses = m.nics
+                ? m.nics.map((nic) => nic.macAddress)
+                : undefined;
+
               return (
-              <MachineCard
-                key={m.idMachine}
-                idCluster={clusterId}
-                idMachine={m.idMachine}
-                hostname={m.hostname}
-                platform={m.platform}
-                lastUpdate={m.lastUpdate}
-                diskCount={m.disks.length}
-                cpuCount={m.cpus.length}
-                disks={m.disks}
-                memoryGB={totalMemoryGB}
-                memoryUnitsCount={m.memoryUnitsCount}
-                memorySlotsCount={m.memorySlotsCount}
-              />
-            )})}
+                <MachineCard
+                  key={m.idMachine}
+                  idCluster={clusterId}
+                  idMachine={m.idMachine}
+                  hostname={m.hostname}
+                  platform={m.platform}
+                  lastUpdate={m.lastUpdate}
+                  diskCount={m.disks.length}
+                  cpuCount={m.cpus.length}
+                  disks={m.disks}
+                  memoryGB={totalMemoryGB}
+                  memoryUnitsCount={m.memoryUnitsCount}
+                  memorySlotsCount={m.memorySlotsCount}
+                  macAddresses={macAddresses}
+                />
+              );
+            })}
           </div>
         )}
       </div>
