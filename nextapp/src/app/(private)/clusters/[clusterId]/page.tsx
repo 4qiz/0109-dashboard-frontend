@@ -11,6 +11,7 @@ const ClusterPage = async ({
   params: Promise<{ clusterId: string }>;
 }) => {
   const { clusterId } = await params;
+
   const { cluster, error } = await getClusterAsync(Number(clusterId));
 
   if (!cluster || error) {

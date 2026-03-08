@@ -1,63 +1,47 @@
-"use client";
-
-import { appRoutes } from "@/shared/constants/app-routes";
 import { Button } from "@/shared/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { Input } from "@/shared/ui/input";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { login } from "../actions/login";
 
-export const LoginForm = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-  async function handleLogin() {
-    setLoading(true);
-    setError("");
+type Props = {
+  error: string | undefined;
+};
 
-    const res = await fetch(appRoutes.apiLogin, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ login, password }),
-    });
-
-    if (!res.ok) {
-      setError("Invalid credentials");
-      setLoading(false);
-      return;
-    }
-
-    router.push(appRoutes.home());
-  }
-
+export const LoginForm = ({ error }: Props) => {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <Card className="w-100">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Input
-            placeholder="Login"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-          />
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+      <div className="w-full max-w-sm space-y-6 border p-6 rounded-lg">
+        <h1 className="text-2xl font-semibold">Welcome back</h1>
 
-          {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && (
+          <div className="text-sm text-destructive border border-destructive p-2 rounded">
+            {error}
+          </div>
+        )}
 
-          <Button onClick={handleLogin} disabled={loading} className="w-full">
-            {loading ? "Signing in..." : "Sign in"}
+        <form action={login} className="space-y-4">
+          <div>
+            <label>Email</label>
+            <input
+              name="login"
+              placeholder="email@example.com"
+              className="border p-2 w-full rounded"
+            />
+          </div>
+
+          <div>
+            <label>Password</label>
+            <input
+              name="password"
+              type="password"
+              placeholder="******"
+              className="border p-2 w-full rounded"
+            />
+          </div>
+
+          <Button type="submit" className="w-full">
+            Login
           </Button>
-        </CardContent>
-      </Card>
+        </form>
+      </div>
     </div>
   );
 };

@@ -10,8 +10,8 @@ export const appRoutes = {
   disk: (clusterId: number, machineId: number, diskId: number) =>
     `/clusters/${clusterId}/machines/${machineId}/disks/${diskId}`,
 
-  apiLogin: `${APP_BASE_URL}/api/auth/login`,
-  apiRefresh: `${APP_BASE_URL}/api/auth/refresh`,
-  apiMe: `${APP_BASE_URL}/api/auth/me`,
-  apiLogout: `${APP_BASE_URL}/api/auth/logout`,
+  apiLogin: `${APP_BASE_URL}/publicapi/auth/login`,
+  apiRefresh: `${APP_BASE_URL}/publicapi/auth/refresh`,
+  apiMe: `${APP_BASE_URL}/publicapi/auth/me`,
+  apiLogout: `${APP_BASE_URL}/publicapi/auth/logout`,
 };

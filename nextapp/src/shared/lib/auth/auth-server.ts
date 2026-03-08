@@ -33,6 +33,16 @@ export const getAccessToken = async () => {
   return (await cookies()).get(ACCESS_COOKIE)?.value;
 };
 
+export async function getAccessTokenServer() {
+  const cookieStore = await cookies();
+  const cookieData = cookieStore.get(ACCESS_COOKIE)?.value;
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000),
+  );
+}
+
 export const getRefreshToken = async () => {
   return (await cookies()).get(REFRESH_COOKIE)?.value;
 };

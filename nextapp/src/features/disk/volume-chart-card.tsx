@@ -43,9 +43,6 @@ export function VolumeChartCard({ volume }: VolumeChartCardProps) {
     },
   } satisfies ChartConfig;
 
-  const getVolumeLabel = () =>
-    volume.letter ? `${volume.letter}:` : `Раздел ${volume.partitionNumber}`;
-
   const formatSize = (gb: number) =>
     gb < 1 ? `${(gb * 1024).toFixed(0)} МБ` : `${gb.toFixed(2)} ГБ`;
 

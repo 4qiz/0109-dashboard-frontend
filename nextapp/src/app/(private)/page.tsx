@@ -4,6 +4,8 @@ import { appRoutes } from "@/shared/constants/app-routes";
 import { AlertTriangleIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const HomePage = async () => {
   const { clusters, error } = await getClustersAsync();
   if (!clusters || error) {
