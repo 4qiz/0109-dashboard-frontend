@@ -3,8 +3,9 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/shared/ui/button";
+import { cn } from "../lib/utils";
 
-export function ToggleTheme() {
+export function ToggleTheme({ className }: { className?: string }) {
   const { setTheme, theme } = useTheme();
 
   return (
@@ -18,7 +19,7 @@ export function ToggleTheme() {
           setTheme("dark");
         }
       }}
-      className="rounded-full"
+      className={cn("rounded-full", className)}
     >
       <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
       <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />

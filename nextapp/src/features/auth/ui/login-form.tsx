@@ -1,5 +1,20 @@
 import { Button } from "@/shared/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/shared/ui/card";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
+
 import { login } from "../actions/login";
+import { PasswordInput } from "./password-input";
+import { NeuroNoise } from "@paper-design/shaders-react";
+import { ToggleTheme } from "@/shared/components/toggle-theme";
+import { StarsBackground } from "@/shared/components/background/stars-background";
+import { TriangleAlert } from "lucide-react";
 
 type Props = {
   error: string | undefined;
@@ -7,41 +22,80 @@ type Props = {
 
 export const LoginForm = ({ error }: Props) => {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-sm space-y-6 border p-6 rounded-lg">
-        <h1 className="text-2xl font-semibold">Welcome back</h1>
-
-        {error && (
-          <div className="text-sm text-destructive border border-destructive p-2 rounded">
-            {error}
-          </div>
-        )}
-
-        <form action={login} className="space-y-4">
-          <div>
-            <label>Email</label>
-            <input
-              name="login"
-              placeholder="email@example.com"
-              className="border p-2 w-full rounded"
-            />
-          </div>
-
-          <div>
-            <label>Password</label>
-            <input
-              name="password"
-              type="password"
-              placeholder="******"
-              className="border p-2 w-full rounded"
-            />
-          </div>
-
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </form>
+    <section className="fixed inset-0 ">
+      {/* Background */}
+      <div className=" dark:hidden absolute inset-0 -z-10">
+        <StarsBackground />
       </div>
-    </div>
+
+      <div className="hidden dark:block absolute inset-0 -z-10">
+        <NeuroNoise
+          width="100%"
+          height="100%"
+          colorBack="#000000"
+          colorMid="#47a6ff"
+          colorFront="#c4c4c4"
+          brightness={0}
+          contrast={0.3}
+          speed={0.14}
+          className=""
+        />
+      </div>
+
+      {/* Centered Login Card */}
+      <div className="h-full w-full grid place-items-stretch md:place-items-center md:px-4 ">
+        <Card className=" w-full md:max-w-md rounded-none md:rounded-xl  bg-amber-950/10 border border-amber-500/50 backdrop-blur dark:bg-black/25 dark:border-black/35 shadow-2xl">
+          <CardHeader className="pt-20 md:pt-0">
+            <CardTitle className="flex justify-between">
+              <h1 className="text-2xl md:text-3xl font-bold bg-linear-to-r not-dark:from-orange-300 not-dark:via-yellow-400 not-dark:to-amber-300  bg-clip-text not-dark:text-transparent ">
+                Вход
+              </h1>
+
+              <ToggleTheme className="not-dark:text-yellow-400 not-dark:hover:text-yellow-400 not-dark:hover:bg-yellow-400/10" />
+            </CardTitle>
+            <CardDescription className=" not-dark:text-orange-100/90 leading-relaxed">
+              Скажите мяу чтобы подтвердить, что вы не человек
+            </CardDescription>
+          </CardHeader>
+
+          <form action={login}>
+            <CardContent className="space-y-6">
+              <div className="grid gap-2">
+                <Label htmlFor="login" className="not-dark:text-orange-50">
+                  Имя котика
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="login"
+                    name="login"
+                    className="   not-dark:focus:ring-amber-500/20 not-dark:bg-orange-500/10  border not-dark:border-orange-300/30 not-dark:hover:border-orange-300/50 not-dark:text-orange-50   text-lg   backdrop-blur-sm"
+                  />
+                </div>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="password" className="text-orange-50">
+                  Секретный мяу
+                </Label>
+                <PasswordInput className=" not-dark:focus:ring-amber-500/20 not-dark:bg-orange-500/10  border not-dark:border-orange-300/30 not-dark:hover:border-orange-300/50 not-dark:text-orange-50   text-lg   backdrop-blur-sm" />
+              </div>
+
+              <Button
+                className="w-full font-semibold backdrop-blur-sm border not-dark:bg-orange-500/10 not-dark:hover:bg-orange-500/20  not-dark:border-orange-300/30 not-dark:hover:border-orange-300/50 not-dark:text-orange-50 dark:bg-slate-500/10 dark:hover:bg-slate-500/20   dark:text-foreground "
+                type="submit"
+              >
+                Тук-тук
+              </Button>
+
+              {error && (
+                <div className="flex items-center gap-1 text-sm text-orange-600 dark:text-destructive">
+                  <TriangleAlert />
+                  {error}
+                </div>
+              )}
+            </CardContent>
+          </form>
+        </Card>
+      </div>
+    </section>
   );
 };
