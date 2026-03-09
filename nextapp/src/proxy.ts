@@ -13,7 +13,7 @@ export function proxy(req: NextRequest) {
   if (!access && refresh) {
     const refreshUrl = new URL(appRoutes.apiRefresh, req.url);
 
-    refreshUrl.searchParams.set("returnTo", pathname + search);
+    //refreshUrl.searchParams.set("returnTo", pathname + search);
 
     return NextResponse.redirect(refreshUrl);
   }

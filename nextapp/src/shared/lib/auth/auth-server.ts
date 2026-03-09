@@ -35,12 +35,7 @@ export const getAccessToken = async () => {
 
 export async function getAccessTokenServer() {
   const cookieStore = await cookies();
-  const cookieData = cookieStore.get(ACCESS_COOKIE)?.value;
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve(cookieData);
-    }, 1000),
-  );
+  return cookieStore.get(ACCESS_COOKIE)?.value;
 }
 
 export const getRefreshToken = async () => {

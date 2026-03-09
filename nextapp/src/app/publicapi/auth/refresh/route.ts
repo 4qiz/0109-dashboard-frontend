@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
   const returnTo = req.nextUrl.searchParams.get("returnTo") || appRoutes.home();
 
   if (!refreshToken) {
-    return NextResponse.redirect(new URL(appRoutes.login, req.url));
+    const redirectUrl = new URL(appRoutes.login, req.url);
+    return NextResponse.redirect(redirectUrl);
   }
 
   try {
@@ -26,19 +27,20 @@ export async function GET(req: NextRequest) {
 
     if (!res.ok) {
       await clearAuthCookies();
-      return NextResponse.redirect(new URL(appRoutes.login, req.url));
+      const redirectUrl = new URL(appRoutes.login, req.url);
+      return NextResponse.redirect(redirectUrl);
     }
 
     const data = await res.json();
-
-    const response = NextResponse.redirect(new URL(returnTo, req.url));
-
     await setAuthCookies(data.accessToken, data.refreshToken);
 
-    return response;
+    const redirectUrl = new URL(returnTo, req.url);
+    return NextResponse.redirect(redirectUrl);
   } catch (error) {
     console.error("Refresh token error:", error);
     await clearAuthCookies();
-    return NextResponse.redirect(new URL(appRoutes.login, req.url));
+    const redirectUrl = new URL(appRoutes.login, req.url);
+
+    return NextResponse.redirect(redirectUrl);
   }
 }
