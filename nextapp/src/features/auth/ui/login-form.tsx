@@ -44,7 +44,7 @@ export const LoginForm = ({ error }: Props) => {
 
       {/* Centered Login Card */}
       <div className="h-full w-full grid place-items-stretch md:place-items-center md:px-4 ">
-        <Card className=" w-full md:max-w-md rounded-none md:rounded-xl  bg-amber-950/10 border border-amber-500/50 backdrop-blur dark:bg-black/25 dark:border-black/35 shadow-2xl">
+        <Card className=" w-full md:max-w-md rounded-none md:rounded-xl  bg-amber-950/10 border border-amber-500/50 backdrop-blur dark:bg-black/25 dark:border-slate-500/35 shadow-2xl">
           <CardHeader className="pt-20 md:pt-0">
             <CardTitle className="flex justify-between">
               <h1 className="text-2xl md:text-3xl font-bold bg-linear-to-r not-dark:from-orange-300 not-dark:via-yellow-400 not-dark:to-amber-300  bg-clip-text not-dark:text-transparent ">
