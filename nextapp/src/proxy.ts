@@ -7,25 +7,34 @@ export function proxy(req: NextRequest) {
   const access = req.cookies.get("accessToken")?.value;
   const refresh = req.cookies.get("refreshToken")?.value;
 
-  const isLoginPage = pathname === appRoutes.login;
+  const isLoginPage = pathname === "/login";
 
-  // если нет accessToken но есть refreshToken → обновляем
   if (!access && refresh) {
-    const refreshUrl = new URL(appRoutes.apiRefresh, req.url);
-
-    refreshUrl.searchParams.set("returnTo", pathname + search);
-
-    return NextResponse.redirect(refreshUrl);
+    const url = req.nextUrl.clone();
+    url.pathname = appRoutes.apiRefresh;
+    url.searchParams.set("returnTo", pathname + search);
+    console.log(
+      "[proxy] - redirect to refresh (no access, yes refresh) -",
+      url,
+    );
+    return NextResponse.redirect(url);
   }
 
-  // если нет токенов → login
   if (!access && !refresh && !isLoginPage) {
-    return NextResponse.redirect(new URL(appRoutes.login, req.url));
+    const url = req.nextUrl.clone();
+    url.pathname = appRoutes.login;
+    console.log("[proxy] - redirect to login - no access, no refresh", url);
+    return NextResponse.redirect(url);
   }
 
-  // если авторизован и идёт на login → home
   if (access && isLoginPage) {
-    return NextResponse.redirect(new URL(appRoutes.home(), req.url));
+    const url = req.nextUrl.clone();
+    url.pathname = appRoutes.home();
+    console.log(
+      "[proxy] - redirect to home - with access try to open login page",
+      url,
+    );
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
