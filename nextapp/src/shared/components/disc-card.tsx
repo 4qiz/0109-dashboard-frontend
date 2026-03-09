@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { ChevronRight, HardDrive } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Badge } from "@/shared/ui/badge";
 import { appRoutes } from "../constants/app-routes";
 
@@ -48,7 +48,6 @@ export function DiskCard({
         <CardHeader className="flex flex-row items-start justify-between gap-3 w-full">
           <div className="space-y-2 flex-1 min-w-0 ">
             <div className="flex items-center gap-2">
-              <HardDrive className="h-5 w-5 text-primary shrink-0" />
               <CardTitle
                 className="text-lg truncate text-wrap line-clamp-1 overflow-hidden"
                 title={name}

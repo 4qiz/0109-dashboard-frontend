@@ -44,10 +44,20 @@ export const LoginForm = ({ error }: Props) => {
 
       {/* Centered Login Card */}
       <div className="h-full w-full grid place-items-stretch md:place-items-center md:px-4 ">
-        <Card className=" w-full md:max-w-md rounded-none md:rounded-xl  bg-amber-950/10 border border-amber-500/50 backdrop-blur dark:bg-black/25 dark:border-slate-500/35 shadow-2xl">
+        <Card
+          className=" w-full md:max-w-md rounded-none md:rounded-xl  
+        bg-amber-950/10 border border-amber-500/50  
+        dark:bg-blue-500/5 dark:border-blue-500/35 
+        backdrop-blur-none md:backdrop-blur-xl shadow-2xl"
+        >
           <CardHeader className="pt-20 md:pt-0">
             <CardTitle className="flex justify-between">
-              <h1 className="text-2xl md:text-3xl font-bold bg-linear-to-r not-dark:from-orange-300 not-dark:via-yellow-400 not-dark:to-amber-300  bg-clip-text not-dark:text-transparent ">
+              <h1
+                className="text-2xl md:text-3xl font-bold 
+              bg-linear-to-r 
+              not-dark:from-orange-300 not-dark:via-yellow-400 not-dark:to-amber-300 not-dark:text-transparent
+              bg-clip-text"
+              >
                 Вход
               </h1>
 
@@ -68,7 +78,12 @@ export const LoginForm = ({ error }: Props) => {
                   <Input
                     id="login"
                     name="login"
-                    className="   not-dark:focus:ring-amber-500/20 not-dark:bg-orange-500/10  border not-dark:border-orange-300/30 not-dark:hover:border-orange-300/50 not-dark:text-orange-50   text-lg   backdrop-blur-sm"
+                    className="border text-lg   backdrop-blur-xl
+                    not-dark:focus:ring-amber-500/20 
+                    not-dark:bg-orange-500/10  
+                    not-dark:border-orange-300/30 
+                    not-dark:hover:border-orange-300/50 
+                    not-dark:text-orange-50"
                   />
                 </div>
               </div>
@@ -76,11 +91,26 @@ export const LoginForm = ({ error }: Props) => {
                 <Label htmlFor="password" className="text-orange-50">
                   Секретный мяу
                 </Label>
-                <PasswordInput className=" not-dark:focus:ring-amber-500/20 not-dark:bg-orange-500/10  border not-dark:border-orange-300/30 not-dark:hover:border-orange-300/50 not-dark:text-orange-50   text-lg   backdrop-blur-sm" />
+                <PasswordInput
+                  className="border text-lg backdrop-blur-xl
+                not-dark:focus:ring-amber-500/20 
+                not-dark:bg-orange-500/10 
+                not-dark:border-orange-300/30 
+                not-dark:hover:border-orange-300/50 
+                not-dark:text-orange-50 "
+                />
               </div>
 
               <Button
-                className="w-full font-semibold backdrop-blur-sm border not-dark:bg-orange-500/10 not-dark:hover:bg-orange-500/20  not-dark:border-orange-300/30 not-dark:hover:border-orange-300/50 not-dark:text-orange-50 dark:bg-slate-500/10 dark:hover:bg-slate-500/20   dark:text-foreground "
+                className="w-full font-semibold border backdrop-blur-xl 
+                not-dark:bg-orange-500/10 
+                not-dark:hover:bg-orange-500/20  
+                not-dark:border-orange-300/30 
+                not-dark:hover:border-orange-300/50 
+                not-dark:text-orange-50 
+                dark:bg-blue-500/10 
+                dark:hover:bg-blue-500/20 
+                dark:text-foreground"
                 type="submit"
               >
                 Тук-тук

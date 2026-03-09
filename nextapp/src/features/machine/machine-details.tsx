@@ -7,7 +7,7 @@ import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { Info, MemoryStick, Monitor, Network } from "lucide-react";
+import { HardDrive, Info, MemoryStick, Monitor, Network } from "lucide-react";
 import { MemorySlotsCard } from "./memory-slots-card";
 import { NICCard } from "./nic-card";
 
@@ -138,6 +138,7 @@ export const MachineDetails = ({
         {/* Disks */}
         <div className="space-y-4">
           <h2 className="text-xl flex items-center gap-2">
+            <HardDrive className="h-5 w-5  shrink-0" />
             Диски
             <Badge variant="secondary">{machine.disks.length}</Badge>
           </h2>
