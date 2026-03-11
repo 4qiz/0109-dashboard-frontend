@@ -13,6 +13,8 @@ export async function login(formData: FormData) {
   const login = formData.get("login");
   const password = formData.get("password");
 
+  console.log("login in, login:", login);
+
   if (!login || !password) {
     redirect(getRedirectUrl("Missing credentials"));
   }

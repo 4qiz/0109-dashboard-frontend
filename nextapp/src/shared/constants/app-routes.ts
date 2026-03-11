@@ -1,10 +1,5 @@
-function getEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) throw new Error(`Missing environment variable: ${name}`);
-  return value;
-}
-
-export const DOMAIN = getEnv("NEXT_PUBLIC_APP_URL");
+export const APP_BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? "Missing environment variable";
 
 export const appRoutes = {
   home: () => `/`,
@@ -22,8 +17,8 @@ export const appRoutes = {
   apiLogout: `/publicapi/auth/logout`,
 
   abs: {
-    home: () => `${DOMAIN}/`,
-    login: () => `${DOMAIN}/login`,
-    refresh: () => `${DOMAIN}/publicapi/auth/refresh`,
+    home: () => `${APP_BASE_URL}/`,
+    login: () => `${APP_BASE_URL}/login`,
+    refresh: () => `${APP_BASE_URL}/publicapi/auth/refresh`,
   },
 };
