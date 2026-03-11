@@ -7,7 +7,7 @@ export function proxy(req: NextRequest) {
   const access = req.cookies.get("accessToken")?.value;
   const refresh = req.cookies.get("refreshToken")?.value;
 
-  const isLoginPage = pathname === "/login";
+  const isLoginPage = pathname === appRoutes.login;
 
   if (!access && refresh) {
     const url = req.nextUrl.clone();
