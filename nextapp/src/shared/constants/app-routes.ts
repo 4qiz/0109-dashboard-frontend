@@ -1,3 +1,4 @@
+const DOMAIN = process.env.NEXT_PUBLIC_APP_URL || "";
 
 export const appRoutes = {
   home: () => `/`,
@@ -13,4 +14,10 @@ export const appRoutes = {
   apiRefresh: `/publicapi/auth/refresh`,
   apiMe: `/publicapi/auth/me`,
   apiLogout: `/publicapi/auth/logout`,
+
+  abs: {
+    home: () => `${DOMAIN}/`,
+    login: () => `${DOMAIN}/login`,
+    refresh: () => `${DOMAIN}/publicapi/auth/refresh`,
+  },
 };

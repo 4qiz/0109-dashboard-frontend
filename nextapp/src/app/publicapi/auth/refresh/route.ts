@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
   const returnTo = req.nextUrl.searchParams.get("returnTo") || appRoutes.home();
 
   if (!refreshToken) {
-    const redirectUrl = new URL(appRoutes.login, req.nextUrl.origin);
+    const redirectUrl = new URL(appRoutes.abs.login());
     console.log(
       "[/publicapi/auth/refresh] - redirect to login - no refresh",
       redirectUrl,
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
 
     if (!res.ok) {
       await clearAuthCookies();
-      const redirectUrl = new URL(appRoutes.login, req.nextUrl.origin);
+      const redirectUrl = new URL(appRoutes.abs.login());
       console.log(
         "[/publicapi/auth/refresh] - redirect to login - cant get new tokens",
         redirectUrl,
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
     await setAuthCookies(data.accessToken, data.refreshToken);
 
-    const redirectUrl = new URL(returnTo, req.nextUrl.origin);
+    const redirectUrl = new URL(returnTo, appRoutes.abs.home());
     console.log(
       "[/publicapi/auth/refresh] - success - get new tokens, redirect back",
       redirectUrl,
@@ -52,8 +52,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("Refresh token error:", error);
     await clearAuthCookies();
-    const redirectUrl = new URL(appRoutes.login, req.nextUrl.origin);
 
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.json(
+      { message: "Internal Server Error Refresh token error" },
+      { status: 500 },
+    );
   }
 }
