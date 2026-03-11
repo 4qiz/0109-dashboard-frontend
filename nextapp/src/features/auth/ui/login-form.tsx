@@ -14,7 +14,7 @@ import { PasswordInput } from "./password-input";
 import { NeuroNoise } from "@paper-design/shaders-react";
 import { ToggleTheme } from "@/shared/components/toggle-theme";
 import { StarsBackground } from "@/shared/components/background/stars-background";
-import { TriangleAlert } from "lucide-react";
+import { Github, TriangleAlert } from "lucide-react";
 
 type Props = {
   error: string | undefined;
@@ -126,6 +126,22 @@ export const LoginForm = ({ error }: Props) => {
           </form>
         </Card>
       </div>
+      {/* Github link */}
+      <a
+        href="https://github.com/4qiz/0109-dashboard-frontend"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2
+  flex items-center gap-2 px-3 py-2 rounded-full
+  backdrop-blur-xl border
+  not-dark:bg-orange-500/10 not-dark:border-orange-300/30 not-dark:text-orange-50
+  not-dark:hover:bg-orange-500/20
+  dark:bg-blue-500/10 dark:border-blue-500/35 dark:hover:bg-blue-500/20
+  transition-all duration-200"
+      >
+        <Github className="w-5 h-5" />
+        <span className="text-sm font-medium">GitHub</span>
+      </a>
     </section>
   );
 };
