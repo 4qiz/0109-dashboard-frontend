@@ -10,9 +10,13 @@ export function proxy(req: NextRequest) {
   const isLoginPage = pathname === appRoutes.login;
 
   if (!access && refresh) {
-    const url = req.nextUrl.clone();
-    url.pathname = appRoutes.apiRefresh;
-    url.searchParams.set("returnTo", pathname + search);
+    // const url = req.nextUrl.clone();
+    // url.pathname = appRoutes.apiRefresh;
+    // url.searchParams.set("returnTo", pathname + search);
+
+    const returnTo = pathname + search;
+    const url =
+      appRoutes.abs.refresh() + "?returnTo=" + encodeURIComponent(returnTo);
     console.log(
       "[proxy] - redirect to refresh (no access, yes refresh) -",
       url,
@@ -21,15 +25,19 @@ export function proxy(req: NextRequest) {
   }
 
   if (!access && !refresh && !isLoginPage) {
-    const url = req.nextUrl.clone();
-    url.pathname = appRoutes.login;
+    // const url = req.nextUrl.clone();
+    // url.pathname = appRoutes.login;
+
+    const url = appRoutes.abs.login();
     console.log("[proxy] - redirect to login - no access, no refresh", url);
     return NextResponse.redirect(url);
   }
 
   if (access && isLoginPage) {
-    const url = req.nextUrl.clone();
-    url.pathname = appRoutes.home();
+    // const url = req.nextUrl.clone();
+    // url.pathname = appRoutes.home();
+
+    const url = appRoutes.abs.home();
     console.log(
       "[proxy] - redirect to home - with access try to open login page",
       url,
