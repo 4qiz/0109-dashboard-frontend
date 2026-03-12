@@ -24,7 +24,7 @@ export const LoginForm = ({ error }: Props) => {
   return (
     <section className="fixed inset-0 ">
       {/* Background */}
-      <div className=" dark:hidden absolute inset-0 -z-10">
+      <div className=" dark:hidden absolute inset-0 -z-10 h-full w-full">
         <StarsBackground />
       </div>
 
@@ -64,7 +64,16 @@ export const LoginForm = ({ error }: Props) => {
               <ToggleTheme className="not-dark:text-yellow-400 not-dark:hover:text-yellow-400 not-dark:hover:bg-yellow-400/10" />
             </CardTitle>
             <CardDescription className=" not-dark:text-orange-100/90 leading-relaxed">
-              Скажите мяу чтобы подтвердить, что вы не человек
+              Скажите{" "}
+              <a
+                href="https://github.com/4qiz/0109-dashboard-frontend"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline font-medium "
+              >
+                мяу
+              </a>{" "}
+              чтобы подтвердить, что вы не человек
             </CardDescription>
           </CardHeader>
 
