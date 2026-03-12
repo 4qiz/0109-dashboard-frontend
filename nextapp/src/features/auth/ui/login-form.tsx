@@ -127,21 +127,22 @@ export const LoginForm = ({ error }: Props) => {
         </Card>
       </div>
       {/* Github link */}
-      <a
+      {/* <a
         href="https://github.com/4qiz/0109-dashboard-frontend"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 left-1/2 -translate-x-1/2
   flex items-center gap-2 px-3 py-2 rounded-full
-  backdrop-blur-xl border
+  
   not-dark:bg-orange-500/10 not-dark:border-orange-300/30 not-dark:text-orange-50
   not-dark:hover:bg-orange-500/20
   dark:bg-blue-500/10 dark:border-blue-500/35 dark:hover:bg-blue-500/20
   transition-all duration-200"
       >
+        backdrop-blur-xl border 
         <Github className="w-5 h-5" />
         <span className="text-sm font-medium">GitHub</span>
-      </a>
+      </a> */}
     </section>
   );
 };
