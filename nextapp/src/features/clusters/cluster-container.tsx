@@ -1,8 +1,7 @@
-import { Server } from "lucide-react";
 import { MachineCard } from "./machine-card";
-import { ToggleTheme } from "@/shared/components/toggle-theme";
 import { ClusterDto } from "@/entities/cluster/dto/cluster-dto";
 import { pluralizeRu } from "@/shared/lib/pluralize-ru";
+import { ClustersHeader } from "./clusters-header";
 
 export const formatMachinesCount = (count: number) =>
   `${count} ${pluralizeRu(count, "машина", "машины", "машин")}`;
@@ -13,36 +12,15 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
   const machinesCount = cluster.machines.length;
   return (
     <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="container max-w-4xl mx-auto px-4 lg:px-6 py-2 ">
-          <div className="flex items-center gap-3 lg:ml-0 ml-14">
-            <Server className="h-6 w-6 text-primary shrink-0" />
-            <div className="flex-1 min-w-0 overflow-hidden">
-              <div className="relative overflow-hidden w-full">
-                <div className="flex w-max gap-12">
-                  <h1 className="text-2xl text-nowrap text-clip ">{name}</h1>
-                </div>
+      <ClustersHeader name={name} machinesCount={machinesCount} />
 
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-linear-to-l from-background"></div>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {formatMachinesCount(machinesCount)}
-              </p>
-            </div>
-            <div className="ml-auto">
-              <ToggleTheme />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container max-w-4xl mx-auto px-4 lg:px-6 py-6">
+      <div className="container mx-auto px-4 lg:px-6 py-6">
         {machines.length === 0 ? (
           <div className="text-center py-12 text-muted-foreground">
             Нет машин в этом кластере
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {machines.map((m) => {
               const totalMemoryGB = m.memoryUnits
                 ? m.memoryUnits.reduce((sum, unit) => sum + unit.capacityGB, 0)

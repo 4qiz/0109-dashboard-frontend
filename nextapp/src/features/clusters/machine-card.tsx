@@ -76,7 +76,7 @@ export function MachineCard({
     >
       <Card
         className={cn(
-          "hover:shadow-lg transition-shadow cursor-pointer gap-0",
+          "hover:shadow-lg transition-shadow cursor-pointer gap-0 overflow-hidden",
           hasUnhealthyDisk && "border-destructive bg-destructive/5",
         )}
       >
