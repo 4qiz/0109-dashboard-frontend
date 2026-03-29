@@ -33,7 +33,7 @@ export const LoginForm = ({ action, state, isPending }: Props) => {
       {/* Centered Login Card */}
       <div className="h-full w-full grid place-items-stretch md:place-items-center md:px-4 ">
         <Card
-          className=" w-full md:max-w-md rounded-none md:rounded-xl  
+          className="py-0 md:py-6 w-full md:max-w-md rounded-none md:rounded-xl  
         bg-amber-950/10 border border-amber-500/50  
         dark:bg-blue-500/5 dark:border-blue-500/35 
         backdrop-blur-none md:backdrop-blur-xl shadow-2xl"
@@ -133,7 +133,7 @@ export const LoginForm = ({ action, state, isPending }: Props) => {
                 {/* subtle shimmer overlay */}
                 {isPending && (
                   <span className="absolute inset-0 overflow-hidden rounded-md">
-                    <span className="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                    <span className="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-linear-to-r from-transparent via-white/10 to-transparent" />
                   </span>
                 )}
               </Button>
