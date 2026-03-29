@@ -4,11 +4,18 @@ import { Input } from "@/shared/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 
-export const PasswordInput = ({ className }: { className?: string }) => {
+export const PasswordInput = ({
+  defaultValue,
+  className,
+}: {
+  defaultValue?: string;
+  className?: string;
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="relative">
       <Input
+        defaultValue={defaultValue}
         id="password"
         name="password"
         type={showPassword ? "text" : "password"}

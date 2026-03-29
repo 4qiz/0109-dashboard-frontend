@@ -4,10 +4,10 @@ const ACCESS_COOKIE = "accessToken";
 const REFRESH_COOKIE = "refreshToken";
 
 // 5 минут
-const ACCESS_MAX_AGE = 60 * 5;
+const ACCESS_MAX_AGE = 60 * 10;
 
 // 48 часов
-const REFRESH_MAX_AGE = 60 * 60 * 72;
+const REFRESH_MAX_AGE = 60 * 60 * 720;
 
 export const setAuthCookies = async (access: string, refresh: string) => {
   const cookieStore = await cookies();

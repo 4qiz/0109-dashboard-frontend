@@ -9,14 +9,27 @@ function getRedirectUrl(message: string): string {
   return `${appRoutes.login}?error=${encodeURIComponent(message)}`;
 }
 
-export async function login(formData: FormData) {
-  const login = formData.get("login");
-  const password = formData.get("password");
+export type LoginState = {
+  error?: string;
+  login?: string;
+  password?: string;
+};
+
+export async function login(
+  prevState: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
+  const login = formData.get("login")?.toString() || "";
+  const password = formData.get("password")?.toString() || "";
 
   console.log("login in, login:", login);
 
   if (!login || !password) {
-    redirect(getRedirectUrl("Missing credentials"));
+    return {
+      error: "Укажите логин и пароль",
+      login,
+      password,
+    };
   }
 
   const res = await fetch(apiRoutes.login, {
@@ -29,13 +42,21 @@ export async function login(formData: FormData) {
   });
 
   if (!res.ok) {
-    redirect(getRedirectUrl("Invalid email or password"));
+    return {
+      error: "Неверный логин или пароль",
+      login,
+      password,
+    };
   }
 
   const data = await res.json();
 
   if (!data?.accessToken || !data?.refreshToken) {
-    redirect(getRedirectUrl("Authentication failed"));
+    return {
+      error: "Сервер не мяукает((",
+      login,
+      password,
+    };
   }
 
   await setAuthCookies(data.accessToken, data.refreshToken);

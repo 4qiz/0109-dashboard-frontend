@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/shared/lib/utils";
 import { useShaderBackground } from "./animated-shader-hero";
 
 export const StarsBackground = ({ className = "" }) => {
@@ -7,7 +8,10 @@ export const StarsBackground = ({ className = "" }) => {
 
   return (
     <div
-      className={`relative w-full h-screen overflow-hidden bg-black ${className}`}
+      className={cn(
+        "relative w-full h-screen overflow-hidden bg-black",
+        className,
+      )}
     >
       <canvas
         ref={canvasRef}

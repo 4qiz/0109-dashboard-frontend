@@ -34,7 +34,14 @@ void main(){gl_Position=position;}`;
     constructor(canvas: HTMLCanvasElement, scale: number) {
       this.canvas = canvas;
       this.scale = scale;
-      this.gl = canvas.getContext("webgl2")!;
+
+      const gl = canvas.getContext("webgl2");
+
+      if (!gl) {
+        throw new Error("WebGL2 not supported");
+      }
+
+      this.gl = gl;
       this.gl.viewport(0, 0, canvas.width * scale, canvas.height * scale);
       this.shaderSource = defaultShaderSource;
     }
@@ -301,7 +308,13 @@ void main(){gl_Position=position;}`;
     const canvas = canvasRef.current;
     const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
 
-    rendererRef.current = new WebGLRenderer(canvas, dpr);
+    try {
+      rendererRef.current = new WebGLRenderer(canvas, dpr);
+    } catch (e) {
+      console.warn("WebGL disabled, fallback to static background");
+      return; // ⬅️ просто выходим, canvas остаётся чёрным
+    }
+
     pointersRef.current = new PointerHandler(canvas, dpr);
 
     rendererRef.current.setup();
@@ -322,9 +335,7 @@ void main(){gl_Position=position;}`;
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (rendererRef.current) {
-        rendererRef.current.reset();
-      }
+      rendererRef.current?.reset();
     };
   }, []);
 

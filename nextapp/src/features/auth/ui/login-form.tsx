@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -9,38 +11,24 @@ import {
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 
-import { login } from "../actions/login";
 import { PasswordInput } from "./password-input";
-import { NeuroNoise } from "@paper-design/shaders-react";
 import { ToggleTheme } from "@/shared/components/toggle-theme";
-import { StarsBackground } from "@/shared/components/background/stars-background";
-import { Github, TriangleAlert } from "lucide-react";
+import { Loader2, TriangleAlert } from "lucide-react";
+import { Background } from "./background";
+import { LoginState } from "../actions/login";
+import { cn } from "@/shared/lib/utils";
 
 type Props = {
-  error: string | undefined;
+  action: (formData: FormData) => void;
+  state: LoginState;
+  isPending: boolean;
 };
 
-export const LoginForm = ({ error }: Props) => {
+export const LoginForm = ({ action, state, isPending }: Props) => {
   return (
     <section className="fixed inset-0 ">
       {/* Background */}
-      <div className=" dark:hidden absolute inset-0 -z-10 h-full w-full">
-        <StarsBackground />
-      </div>
-
-      <div className="hidden dark:block absolute inset-0 -z-10">
-        <NeuroNoise
-          width="100%"
-          height="100%"
-          colorBack="#000000"
-          colorMid="#47a6ff"
-          colorFront="#c4c4c4"
-          brightness={0}
-          contrast={0.3}
-          speed={0.14}
-          className=""
-        />
-      </div>
+      <Background />
 
       {/* Centered Login Card */}
       <div className="h-full w-full grid place-items-stretch md:place-items-center md:px-4 ">
@@ -77,7 +65,7 @@ export const LoginForm = ({ error }: Props) => {
             </CardDescription>
           </CardHeader>
 
-          <form action={login}>
+          <form action={action}>
             <CardContent className="space-y-6">
               <div className="grid gap-2">
                 <Label htmlFor="login" className="not-dark:text-orange-50">
@@ -87,6 +75,7 @@ export const LoginForm = ({ error }: Props) => {
                   <Input
                     id="login"
                     name="login"
+                    defaultValue={state.login}
                     className="border text-lg   backdrop-blur-xl
                     not-dark:focus:ring-amber-500/20 
                     not-dark:bg-orange-500/10  
@@ -101,6 +90,7 @@ export const LoginForm = ({ error }: Props) => {
                   Секретный мяу
                 </Label>
                 <PasswordInput
+                  defaultValue={state.password}
                   className="border text-lg backdrop-blur-xl
                 not-dark:focus:ring-amber-500/20 
                 not-dark:bg-orange-500/10 
@@ -111,47 +101,53 @@ export const LoginForm = ({ error }: Props) => {
               </div>
 
               <Button
-                className="w-full font-semibold border backdrop-blur-xl 
-                not-dark:bg-orange-500/10 
-                not-dark:hover:bg-orange-500/20  
-                not-dark:border-orange-300/30 
-                not-dark:hover:border-orange-300/50 
-                not-dark:text-orange-50 
-                dark:bg-blue-500/10 
-                dark:hover:bg-blue-500/20 
-                dark:text-foreground"
+                disabled={isPending}
+                aria-disabled={isPending}
+                className={cn(
+                  "w-full font-semibold border backdrop-blur-xl",
+                  "not-dark:bg-orange-500/10 ",
+                  "not-dark:hover:bg-orange-500/20  ",
+                  "not-dark:border-orange-300/30 ",
+                  "not-dark:hover:border-orange-300/50 ",
+                  "not-dark:text-orange-50 ",
+                  "dark:bg-blue-500/10 ",
+                  "dark:hover:bg-blue-500/20 ",
+                  "dark:text-foreground",
+                  isPending && "cursor-not-allowed opacity-80",
+                )}
                 type="submit"
               >
-                Тук-тук
+                <span className="flex items-center justify-center gap-2">
+                  {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+
+                  <span
+                    className={cn(
+                      "transition-all duration-200",
+                      isPending && "opacity-90",
+                    )}
+                  >
+                    {isPending ? "" : "Тук-тук"}
+                  </span>
+                </span>
+
+                {/* subtle shimmer overlay */}
+                {isPending && (
+                  <span className="absolute inset-0 overflow-hidden rounded-md">
+                    <span className="absolute inset-0 animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  </span>
+                )}
               </Button>
 
-              {error && (
+              {state.error && (
                 <div className="flex items-center gap-1 text-sm text-orange-600 dark:text-destructive">
                   <TriangleAlert />
-                  {error}
+                  {state.error}
                 </div>
               )}
             </CardContent>
           </form>
         </Card>
       </div>
-      {/* Github link */}
-      {/* <a
-        href="https://github.com/4qiz/0109-dashboard-frontend"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 left-1/2 -translate-x-1/2
-  flex items-center gap-2 px-3 py-2 rounded-full
-  
-  not-dark:bg-orange-500/10 not-dark:border-orange-300/30 not-dark:text-orange-50
-  not-dark:hover:bg-orange-500/20
-  dark:bg-blue-500/10 dark:border-blue-500/35 dark:hover:bg-blue-500/20
-  transition-all duration-200"
-      >
-        backdrop-blur-xl border 
-        <Github className="w-5 h-5" />
-        <span className="text-sm font-medium">GitHub</span>
-      </a> */}
     </section>
   );
 };
