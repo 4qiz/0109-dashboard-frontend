@@ -26,19 +26,19 @@ type Props = {
 
 export const LoginForm = ({ action, state, isPending }: Props) => {
   return (
-    <section className="fixed inset-0 ">
+    <section className="h-full flex fixed inset-0 md:justify-center ">
       {/* Background */}
       <Background />
 
       {/* Centered Login Card */}
-      <div className="h-full w-full grid place-items-stretch md:place-items-center md:px-4 ">
+      <div className=" w-full grid place-items-stretch md:place-items-center md:px-4 ">
         <Card
-          className="py-0 md:py-6 w-full md:max-w-md rounded-none md:rounded-xl  
-        bg-amber-950/10 border border-amber-500/50  
+          className="py-0 md:py-6 h-fit w-full md:max-w-md rounded-none md:rounded-xl z-10
+        bg-amber-950/10 border-0 md:border md:border-amber-500/50  
         dark:bg-blue-500/5 dark:border-blue-500/35 
-        backdrop-blur-none md:backdrop-blur-xl shadow-2xl"
+        backdrop-blur-none md:backdrop-blur-xl md:shadow-2xl"
         >
-          <CardHeader className="pt-20 md:pt-0">
+          <CardHeader className="pt-20 md:pt-0 ">
             <CardTitle className="flex justify-between">
               <h1
                 className="text-2xl md:text-3xl font-bold 

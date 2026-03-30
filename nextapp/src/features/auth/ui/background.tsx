@@ -1,6 +1,7 @@
 "use client";
 
 import { StarsBackground } from "@/shared/components/background/stars-background";
+import { ThreeScene } from "@/shared/components/background/threejs/scene";
 import { NeuroNoise } from "@paper-design/shaders-react";
 import { useEffect, useState } from "react";
 
@@ -21,7 +22,7 @@ export const Background = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 -z-10">
+    <div className="absolute inset-0 z-0">
       {hasWebGL === null ? (
         // SSR + first client render → identical
         <div className="w-full h-screen bg-black" />
@@ -31,8 +32,9 @@ export const Background = () => {
       ) : (
         // WebGL available
         <>
-          <StarsBackground className="dark:hidden" />
-          <NeuroNoise
+          <ThreeScene />
+          {/* <StarsBackground className="dark:hidden" /> */}
+          {/* <NeuroNoise
             width="100%"
             height="100%"
             colorBack="#000000"
@@ -42,7 +44,7 @@ export const Background = () => {
             contrast={0.3}
             speed={0.14}
             className="hidden dark:block"
-          />
+          /> */}
         </>
       )}
     </div>
