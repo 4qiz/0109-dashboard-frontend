@@ -8,20 +8,20 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 export const GpuCard = ({ gpu }: { gpu: GpuDto }) => {
-  const [open, setOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
     <Card>
       <CardHeader
         className="cursor-pointer select-none flex items-center justify-between"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => setIsCollapsed((prev) => !prev)}
       >
         <CardTitle className="text-base">
           {gpu.name} <Badge className="">{gpu.memSize} GB</Badge>
         </CardTitle>
         {/* Expand Icon */}
         <div className="ml-2 shrink-0 ">
-          {open ? (
+          {isCollapsed ? (
             <ChevronDown className="h-4 w-4 text-muted-foreground" />
           ) : (
             <ChevronUp className="h-4 w-4 text-muted-foreground" />
@@ -29,7 +29,7 @@ export const GpuCard = ({ gpu }: { gpu: GpuDto }) => {
         </div>
       </CardHeader>
 
-      {open && (
+      {!isCollapsed && (
         <CardContent className="space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
