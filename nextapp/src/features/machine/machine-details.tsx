@@ -7,9 +7,17 @@ import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { HardDrive, Info, MemoryStick, Monitor, Network } from "lucide-react";
+import {
+  Box,
+  HardDrive,
+  Info,
+  MemoryStick,
+  Monitor,
+  Network,
+} from "lucide-react";
 import { MemorySlotsCard } from "./memory-slots-card";
 import { NICCard } from "./nic-card";
+import { GpuCard } from "./gpu-card";
 
 export const MachineDetails = ({
   machine,
@@ -168,6 +176,20 @@ export const MachineDetails = ({
             </h2>
             {machine.nics.map((nic, index) => (
               <NICCard key={`${nic.macAddress}-${index}`} nic={nic} />
+            ))}
+          </div>
+        )}
+
+        {/* GPUs */}
+        {machine.gpus && machine.gpus.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-xl flex items-center gap-2">
+              <Box className="h-5 w-5" />
+              Графические карты
+              <Badge variant="secondary">{machine.gpus.length}</Badge>
+            </h2>
+            {machine.gpus.map((gpu, index) => (
+              <GpuCard key={`${index}`} gpu={gpu} />
             ))}
           </div>
         )}

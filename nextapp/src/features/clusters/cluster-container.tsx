@@ -30,6 +30,9 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
                 ? m.nics.map((nic) => nic.macAddress)
                 : undefined;
 
+              const cpus = m.cpus ? m.cpus.map((cpu) => cpu.name) : undefined;
+              const gpus = m.gpus ? m.gpus.map((gpu) => gpu.name) : undefined;
+
               return (
                 <MachineCard
                   key={m.idMachine}
@@ -45,6 +48,8 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
                   memoryUnitsCount={m.memoryUnitsCount}
                   memorySlotsCount={m.memorySlotsCount}
                   macAddresses={macAddresses}
+                  cpus={cpus}
+                  gpus={gpus}
                 />
               );
             })}

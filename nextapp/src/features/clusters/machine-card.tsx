@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 import {
   AlertCircle,
-  ChevronRight,
   Cpu,
   HardDrive,
   MemoryStick,
@@ -31,7 +30,9 @@ interface MachineCardProps {
   memoryGB?: number;
   memoryUnitsCount?: number;
   memorySlotsCount?: number;
+  cpus?: string[];
   macAddresses?: string[];
+  gpus?: string[];
 }
 
 export function MachineCard({
@@ -46,7 +47,9 @@ export function MachineCard({
   disks,
   memorySlotsCount,
   memoryUnitsCount,
+  cpus,
   macAddresses,
+  gpus,
 }: MachineCardProps) {
   const { timeAgo, formatted } = formatLastUpdate(lastUpdate);
 
@@ -92,6 +95,18 @@ export function MachineCard({
               </div>
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline">{platform}</Badge>
+                {cpus &&
+                  cpus.map((cpu) => (
+                    <Badge key={cpu} variant="outline">
+                      {cpu}
+                    </Badge>
+                  ))}
+                {gpus &&
+                  gpus.map((gpu) => (
+                    <Badge key={gpu} variant="outline">
+                      {gpu}
+                    </Badge>
+                  ))}
                 {macAddresses &&
                   macAddresses.map((mac) => (
                     <Badge key={mac} variant="outline">
@@ -100,7 +115,6 @@ export function MachineCard({
                   ))}
               </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
           </div>
         </CardHeader>
         <CardContent>

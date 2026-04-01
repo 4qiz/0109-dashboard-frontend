@@ -12,6 +12,7 @@ export interface MachineDto {
   cpus: CpuDto[];
   memoryUnits?: MemoryUnitDto[];
   nics?: NicDto[];
+  gpus?: GpuDto[];
 }
 
 export interface MachineDiskDto {
@@ -56,4 +57,21 @@ export interface NicDto {
   name: string;
   driverInfo: string;
   description: string;
+}
+
+export interface GpuDto {
+  name: string;
+  location: string;
+  vendor: string;
+  processor: string;
+  gpuRevision: string;
+  processSize: number;
+  releaseDate: string;
+  bus: string;
+  memType: string;
+  memVendor: string;
+  memBusWidth: number;
+  memSize: number;
+  driverVersion: string;
+  driverDate: string;
 }
