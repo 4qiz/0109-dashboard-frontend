@@ -32,7 +32,7 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
         icon={<Disc3 className="h-6 w-6 text-primary shrink-0" />}
       />
 
-      <div className=" px-4 py-6 space-y-6">
+      <div className=" px-6 py-6 space-y-6">
         {/* Disk Summary */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
