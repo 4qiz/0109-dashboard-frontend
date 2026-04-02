@@ -5,10 +5,6 @@ import { appRoutes } from "@/shared/constants/app-routes";
 import { setAuthCookies } from "@/shared/lib/auth/auth-server";
 import { redirect } from "next/navigation";
 
-function getRedirectUrl(message: string): string {
-  return `${appRoutes.login}?error=${encodeURIComponent(message)}`;
-}
-
 export type LoginState = {
   error?: string;
   login?: string;

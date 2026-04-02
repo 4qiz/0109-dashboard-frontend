@@ -1,14 +1,13 @@
 import { MachineDto } from "@/entities/machine/dto/machine-dto";
-import { BackButton } from "@/shared/components/back-button";
 import { DiskCard } from "@/shared/components/disc-card";
 import { PropertyList } from "@/shared/components/property-list";
-import { ToggleTheme } from "@/shared/components/toggle-theme";
 import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
 import {
-  Box,
+  Cpu,
+  Gpu,
   HardDrive,
   Info,
   MemoryStick,
@@ -18,6 +17,7 @@ import {
 import { MemorySlotsCard } from "./memory-slots-card";
 import { NICCard } from "./nic-card";
 import { GpuCard } from "./gpu-card";
+import { Header } from "@/shared/components/header";
 
 export const MachineDetails = ({
   machine,
@@ -29,28 +29,14 @@ export const MachineDetails = ({
   const { timeAgo } = formatLastUpdate(machine.lastUpdate);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-10 bg-background border-b">
-        <div className="container max-w-4xl mx-auto px-4 lg:px-6 py-2">
-          <div className="space-y-3 ">
-            <BackButton className="hidden lg:flex" />
-            <div className="flex items-center gap-3 lg:ml-0 ml-14">
-              <Monitor className="h-6 w-6 text-primary" />
-              <div className="flex-1 min-w-0">
-                <h1 className="text-2xl truncate">{machine.hostname}</h1>
-                <p className="text-sm text-muted-foreground">
-                  ID: {machine.idMachine}
-                </p>
-              </div>
-              <div className="ml-auto">
-                <ToggleTheme />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen container mx-auto max-w-4xl">
+      <Header
+        title={machine.hostname}
+        description={`ID: ${machine.idMachine}`}
+        icon={<Monitor className="h-6 w-6 text-primary shrink-0" />}
+      />
 
-      <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6">
+      <div className="   px-4 py-6 space-y-6">
         {/* General Information */}
         <Card>
           <CardHeader>
@@ -93,6 +79,7 @@ export const MachineDetails = ({
         {/* CPUs */}
         <div className="space-y-4">
           <h2 className="text-xl flex items-center gap-2">
+            <Cpu className="h-5 w-5" />
             Процессоры
             <Badge variant="secondary">{machine.cpus.length}</Badge>
           </h2>
@@ -123,6 +110,20 @@ export const MachineDetails = ({
             />
           ))}
         </div>
+
+        {/* GPUs */}
+        {machine.gpus && machine.gpus.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="text-xl flex items-center gap-2">
+              <Gpu className="h-5 w-5" />
+              Графические карты
+              <Badge variant="secondary">{machine.gpus.length}</Badge>
+            </h2>
+            {machine.gpus.map((gpu, index) => (
+              <GpuCard key={`${index}`} gpu={gpu} />
+            ))}
+          </div>
+        )}
 
         {/* Memory */}
         {machine.memoryUnits && machine.memoryUnits.length > 0 && (
@@ -176,20 +177,6 @@ export const MachineDetails = ({
             </h2>
             {machine.nics.map((nic, index) => (
               <NICCard key={`${nic.macAddress}-${index}`} nic={nic} />
-            ))}
-          </div>
-        )}
-
-        {/* GPUs */}
-        {machine.gpus && machine.gpus.length > 0 && (
-          <div className="space-y-4">
-            <h2 className="text-xl flex items-center gap-2">
-              <Box className="h-5 w-5" />
-              Графические карты
-              <Badge variant="secondary">{machine.gpus.length}</Badge>
-            </h2>
-            {machine.gpus.map((gpu, index) => (
-              <GpuCard key={`${index}`} gpu={gpu} />
             ))}
           </div>
         )}

@@ -1,8 +1,6 @@
 "use client";
 
-import { StarsBackground } from "@/shared/components/background/stars-background";
 import { ThreeScene } from "@/shared/components/background/threejs/scene";
-import { NeuroNoise } from "@paper-design/shaders-react";
 import { useEffect, useState } from "react";
 
 export const Background = () => {

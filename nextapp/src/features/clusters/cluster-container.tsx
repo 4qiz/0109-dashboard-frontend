@@ -1,7 +1,8 @@
 import { MachineCard } from "./machine-card";
 import { ClusterDto } from "@/entities/cluster/dto/cluster-dto";
 import { pluralizeRu } from "@/shared/lib/pluralize-ru";
-import { ClustersHeader } from "./clusters-header";
+import { Header } from "@/shared/components/header";
+import { Server } from "lucide-react";
 
 export const formatMachinesCount = (count: number) =>
   `${count} ${pluralizeRu(count, "машина", "машины", "машин")}`;
@@ -12,7 +13,11 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
   const machinesCount = cluster.machines.length;
   return (
     <div className="min-h-screen bg-background">
-      <ClustersHeader name={name} machinesCount={machinesCount} />
+      <Header
+        title={name}
+        description={formatMachinesCount(machinesCount)}
+        icon={<Server className="h-6 w-6 text-primary shrink-0" />}
+      />
 
       <div className="container mx-auto px-4 lg:px-6 py-6">
         {machines.length === 0 ? (

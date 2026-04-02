@@ -29,7 +29,7 @@ export function PropertyList({
           className="cursor-pointer select-none flex items-center justify-between"
           onClick={() => setIsCollapsed((prev) => !prev)}
         >
-          <CardTitle className="">{title}</CardTitle>
+          <CardTitle>{title}</CardTitle>
           {/* Expand Icon */}
           <div className="ml-2 shrink-0 ">
             {isCollapsed ? (
@@ -42,7 +42,7 @@ export function PropertyList({
       )}
 
       {!isCollapsed && (
-        <CardContent className={title ? "" : "pt-6"}>
+        <CardContent>
           <div className="space-y-3">
             {properties.map((prop, index) => (
               <div key={index}>

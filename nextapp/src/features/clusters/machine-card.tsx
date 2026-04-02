@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import {
   AlertCircle,
   Cpu,
+  Gpu,
   HardDrive,
   MemoryStick,
   Monitor,
@@ -17,6 +18,20 @@ import Link from "next/link";
 
 export const formatDisksCount = (count: number) =>
   `${count} ${pluralizeRu(count, "диск", "диска", "дисков")}`;
+
+// Функция для цвета индикатора диска
+const getDiskColor = (status: string) => {
+  switch (status) {
+    case "OK":
+      return "bg-green-500 border-green-600 dark:bg-green-400";
+    case "WARNING":
+      return "bg-yellow-500 border-yellow-600 dark:bg-yellow-400";
+    case "CRITICAL":
+      return "bg-red-500 border-red-600 dark:bg-red-400";
+    default:
+      return "bg-gray-400 border-gray-600 dark:bg-gray-500";
+  }
+};
 
 interface MachineCardProps {
   idCluster: number;
@@ -30,7 +45,6 @@ interface MachineCardProps {
   memoryGB?: number;
   memoryUnitsCount?: number;
   memorySlotsCount?: number;
-  cpus?: string[];
   macAddresses?: string[];
   gpus?: string[];
 }
@@ -47,7 +61,6 @@ export function MachineCard({
   disks,
   memorySlotsCount,
   memoryUnitsCount,
-  cpus,
   macAddresses,
   gpus,
 }: MachineCardProps) {
@@ -57,20 +70,6 @@ export function MachineCard({
   const hasUnhealthyDisk = disks.some(
     (disk) => disk.operationalStatus !== "OK",
   );
-
-  // Функция для цвета индикатора диска
-  const getDiskColor = (status: string) => {
-    switch (status) {
-      case "OK":
-        return "bg-green-500 border-green-600 dark:bg-green-400";
-      case "WARNING":
-        return "bg-yellow-500 border-yellow-600 dark:bg-yellow-400";
-      case "CRITICAL":
-        return "bg-red-500 border-red-600 dark:bg-red-400";
-      default:
-        return "bg-gray-400 border-gray-600 dark:bg-gray-500";
-    }
-  };
 
   return (
     <Link
@@ -83,7 +82,7 @@ export function MachineCard({
           hasUnhealthyDisk && "border-destructive bg-destructive/5",
         )}
       >
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-1">
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-2 flex-1 min-w-0">
               <div className="flex items-center gap-2">
@@ -95,18 +94,7 @@ export function MachineCard({
               </div>
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline">{platform}</Badge>
-                {cpus &&
-                  cpus.map((cpu) => (
-                    <Badge key={cpu} variant="outline">
-                      {cpu}
-                    </Badge>
-                  ))}
-                {gpus &&
-                  gpus.map((gpu) => (
-                    <Badge key={gpu} variant="outline">
-                      {gpu}
-                    </Badge>
-                  ))}
+
                 {macAddresses &&
                   macAddresses.map((mac) => (
                     <Badge key={mac} variant="outline">
@@ -119,7 +107,7 @@ export function MachineCard({
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="flex flex-wrap gap-3 text-sm">
+            <div className="flex flex-wrap gap-y-1 gap-x-3 text-sm">
               <div className="flex items-center gap-1.5">
                 <Cpu className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">{cpuCount} CPU</span>
@@ -134,6 +122,12 @@ export function MachineCard({
                 <HardDrive className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">
                   {formatDisksCount(diskCount)}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Gpu className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">
+                  {gpus ? `${gpus.length} GPU` : "Нет GPU"}
                 </span>
               </div>
             </div>
@@ -151,7 +145,7 @@ export function MachineCard({
                           className={cn(
                             "w-2 h-4 rounded-sm border transition-colors",
                             index < memoryUnitsCount
-                              ? "bg-green-500/90 border-green-500"
+                              ? "bg-green-500 border-green-600 dark:bg-green-400"
                               : "bg-muted border-ring",
                           )}
                         />
