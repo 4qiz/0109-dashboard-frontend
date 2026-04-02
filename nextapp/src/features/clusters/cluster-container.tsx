@@ -53,7 +53,6 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
                   memoryUnitsCount={m.memoryUnitsCount}
                   memorySlotsCount={m.memorySlotsCount}
                   macAddresses={macAddresses}
-                  cpus={cpus}
                   gpus={gpus}
                 />
               );
