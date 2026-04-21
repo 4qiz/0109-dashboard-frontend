@@ -1,8 +1,8 @@
-import { logger } from "@/shared/lib/logger";
+import { logger } from "@/shared/lib/metrics/logger";
 
 export async function GET() {
   try {
-    logger.info({ msg: "metrics requested" });
+    logger.info({ msg: "metrics requested vbox" });
 
     return new Response("ok");
   } catch (err) {

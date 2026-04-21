@@ -1,8 +1,6 @@
 import { Registry, collectDefaultMetrics } from "prom-client";
 
-const globalForMetrics = globalThis as unknown as {
-  metricsRegistry?: Registry;
-};
+const globalForMetrics = globalThis as any;
 
 export const metricsRegistry =
   globalForMetrics.metricsRegistry ??

@@ -8,12 +8,11 @@ const globalForLogger = globalThis as unknown as {
 export const logger =
   globalForLogger.logger ??
   (() => {
+    const lokiUrl = process.env.NEXT_PUBLIC_LOKI_URL;
+    console.log("Loki URL:", lokiUrl);
     const transport = pinoLoki({
-      host: process.env.LOKI_URL ?? "http://127.0.0.1:3100",
-      batching: {
-        interval: 10000, // 10s is safer in production
-        maxBufferSize: 200,
-      },
+      host: lokiUrl ?? "http://127.0.0.1:3100",
+      batching: false,
       labels: {
         app: "nextapp",
         env: process.env.NODE_ENV,

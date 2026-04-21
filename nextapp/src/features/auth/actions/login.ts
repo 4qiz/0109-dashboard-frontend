@@ -3,6 +3,7 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { appRoutes } from "@/shared/constants/app-routes";
 import { setAuthCookies } from "@/shared/lib/auth/auth-server";
+import { getUserSignups } from "@/shared/lib/metrics/userSignups";
 import { redirect } from "next/navigation";
 
 export type LoginState = {
@@ -56,6 +57,13 @@ export async function login(
   }
 
   await setAuthCookies(data.accessToken, data.refreshToken);
+
+const userSignups = getUserSignups();
+
+  userSignups.inc({
+    plan_type: "pro",
+    referral_source: "github",
+  });
 
   redirect(appRoutes.home());
 }
