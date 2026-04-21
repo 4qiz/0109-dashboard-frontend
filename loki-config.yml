@@ -1,0 +1,47 @@
+auth_enabled: false
+
+server:
+  http_listen_address: 0.0.0.0
+  http_listen_port: 3100
+
+common:
+  path_prefix: /loki
+  replication_factor: 1
+
+  storage:
+    filesystem:
+      chunks_directory: /loki/chunks
+      rules_directory: /loki/rules
+
+  ring:
+    kvstore:
+      store: inmemory
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
+limits_config:
+  retention_period: 672h
+
+compactor:
+  working_directory: /loki/compactor
+
+ruler:
+  storage:
+    type: local
+    local:
+      directory: /loki/rules
+
+# NOTE: This configuration is suitable for development/testing only.
+# For production, you should:
+# 1. Enable authentication
+# 2. Use persistent storage instead of filesystem
+# 3. Use external kvstore (like etcd or consul) instead of inmemory
+# 4. Use proper persistent directory instead of /tmp
