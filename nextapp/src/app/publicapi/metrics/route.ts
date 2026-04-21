@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
+import { metricsRegistry } from "@/shared/lib/metrics";
 
 export async function GET() {
-  try {
-    const metrics = await globalThis?.metrics?.metrics();
-    return new NextResponse(metrics, {
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-  } catch (error) {
-    globalThis?.logger?.error({
-      err: error,
-      message: "Something went wrong.",
-    });
-  }
+  const metrics = await metricsRegistry.metrics();
+
+  return new NextResponse(metrics, {
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
 }
