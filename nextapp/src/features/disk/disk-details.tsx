@@ -4,6 +4,7 @@ import { Badge } from "@/shared/ui/badge";
 import { Database, Disc3, Info } from "lucide-react";
 import { VolumeChartCard } from "./volume-chart-card";
 import { Header } from "@/shared/components/header";
+import { DiskSmartSummary } from "./disk-smart-summary";
 
 const getOperationalColor = (status: string) => {
   switch (status.toUpperCase()) {
@@ -48,7 +49,7 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
               {disk.operationalStatus}
             </Badge>
           </div>
-
+          <DiskSmartSummary properties={properties} diskType={disk.diskType} />
           {disk.masterComputer && (
             <p className="text-sm text-muted-foreground">
               Установлен на:{" "}
@@ -56,6 +57,8 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
             </p>
           )}
         </div>
+
+       
 
         {/* Disk Volumes */}
         {disk.diskVolumes && disk.diskVolumes.length > 0 && (
@@ -71,6 +74,8 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
             </div>
           </div>
         )}
+
+
 
         {/* All Properties */}
         <div className="space-y-4">
