@@ -6,6 +6,7 @@ export const appRoutes = {
   login: `/login`,
   clusters: () => `/clusters`,
   clustersId: (id: number) => `/clusters/${id}`,
+  clusterDisks: (clusterId: number) => `/clusters/${clusterId}/disks`,
   machine: (clusterId: number, machineId: number) =>
     `/clusters/${clusterId}/machines/${machineId}`,
   disk: (clusterId: number, machineId: number, diskId: number) =>

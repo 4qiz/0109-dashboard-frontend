@@ -3,6 +3,7 @@ import { ClusterDto } from "@/entities/cluster/dto/cluster-dto";
 import { pluralizeRu } from "@/shared/lib/pluralize-ru";
 import { Header } from "@/shared/components/header";
 import { Server } from "lucide-react";
+import { ClusterRowMenu } from "./cluster-row-menu";
 
 export const formatMachinesCount = (count: number) =>
   `${count} ${pluralizeRu(count, "машина", "машины", "машин")}`;
@@ -20,6 +21,8 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
       />
 
       <div className="container mx-auto px-4 lg:px-6 py-6">
+        <ClusterRowMenu clusterId={clusterId} activePage="machines" />
+
         {machines.length === 0 ? (
           <div className="text-center py-12 text-muted-foreground">
             Нет машин в этом кластере

@@ -5,6 +5,7 @@ export interface DiskPropertyDto {
 
 export interface DiskDto {
   idDisk: number;
+  idMachine?: number;
   name: string;
   masterComputer: string;
   serial: string;
