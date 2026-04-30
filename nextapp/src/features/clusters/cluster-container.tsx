@@ -31,10 +31,6 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
                 ? m.memoryUnits.reduce((sum, unit) => sum + unit.capacityGB, 0)
                 : undefined;
 
-              const macAddresses = m.nics
-                ? m.nics.map((nic) => nic.macAddress)
-                : undefined;
-
               const cpus = m.cpus ? m.cpus.map((cpu) => cpu.name) : undefined;
               const gpus = m.gpus ? m.gpus.map((gpu) => gpu.name) : undefined;
 
@@ -52,7 +48,7 @@ export const ClusterContainer = ({ cluster }: { cluster: ClusterDto }) => {
                   memoryGB={totalMemoryGB}
                   memoryUnitsCount={m.memoryUnitsCount}
                   memorySlotsCount={m.memorySlotsCount}
-                  macAddresses={macAddresses}
+                  nics={m.nics}
                   gpus={gpus}
                 />
               );

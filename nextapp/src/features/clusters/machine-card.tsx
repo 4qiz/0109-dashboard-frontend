@@ -1,4 +1,4 @@
-import { MachineDiskDto } from "@/entities/machine/dto/machine-dto";
+import { MachineDiskDto, NicDto } from "@/entities/machine/dto/machine-dto";
 import { appRoutes } from "@/shared/constants/app-routes";
 import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { pluralizeRu } from "@/shared/lib/pluralize-ru";
@@ -45,7 +45,7 @@ interface MachineCardProps {
   memoryGB?: number;
   memoryUnitsCount?: number;
   memorySlotsCount?: number;
-  macAddresses?: string[];
+  nics?: NicDto[];
   gpus?: string[];
 }
 
@@ -61,10 +61,13 @@ export function MachineCard({
   disks,
   memorySlotsCount,
   memoryUnitsCount,
-  macAddresses,
+  nics,
   gpus,
 }: MachineCardProps) {
   const { timeAgo, formatted } = formatLastUpdate(lastUpdate);
+  const upMacAddresses = nics
+    ?.filter((nic) => nic.status.toLowerCase() === "up")
+    .map((nic) => nic.macAddress);
 
   // Определяем наличие проблемных дисков
   const hasUnhealthyDisk = disks.some(
@@ -95,8 +98,8 @@ export function MachineCard({
               <div className="flex flex-wrap gap-2">
                 <Badge variant="outline">{platform}</Badge>
 
-                {macAddresses &&
-                  macAddresses.map((mac) => (
+                {upMacAddresses &&
+                  upMacAddresses.map((mac) => (
                     <Badge key={mac} variant="outline">
                       {mac}
                     </Badge>
