@@ -45,6 +45,7 @@ export const ClusterDisksContainer = ({
                 idMachine={disk.idMachine as number}
                 idDisk={disk.idDisk}
                 name={disk.name}
+                masterComputer={disk.masterComputer}
                 serial={disk.serial}
                 busType={disk.busType}
                 diskType={disk.diskType}

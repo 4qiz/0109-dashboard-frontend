@@ -158,6 +158,7 @@ export const MachineDetails = ({
               key={disk.idDisk}
               idDisk={disk.idDisk}
               name={disk.name}
+              masterComputer={machine.hostname}
               serial={disk.serial}
               busType={disk.busType}
               diskType={disk.diskType}

@@ -9,6 +9,7 @@ interface DiskCardProps {
   idMachine: number;
   idDisk: number;
   name: string;
+  masterComputer: string;
   serial: string;
   busType: string;
   diskType: string;
@@ -21,6 +22,7 @@ export function DiskCard({
   idMachine,
   idDisk,
   name,
+  masterComputer,
   serial,
   busType,
   diskType,
@@ -41,7 +43,7 @@ export function DiskCard({
         return "bg-muted text-muted-foreground";
     }
   };
-
+  operationalStatus = "CRITICAL"
   return (
     <Link href={appRoutes.disk(idCluster, idMachine, idDisk)} className="block">
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
@@ -55,12 +57,14 @@ export function DiskCard({
                 {name}
               </CardTitle>
             </div>
+    
             <p className="text-sm text-muted-foreground truncate">{serial}</p>
           </div>
           <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
+          <Badge variant="outline">{masterComputer}</Badge>
             <Badge variant="outline">{busType}</Badge>
             {diskType && <Badge variant="outline">{diskType}</Badge>}
 
