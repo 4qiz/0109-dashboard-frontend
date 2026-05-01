@@ -30,11 +30,11 @@ export function ClusterRowMenu({ clusterId, activePage }: ClusterRowMenuProps) {
             key={item.href}
             href={item.href}
             className={cn(
-              "h-10 w-full rounded-md border border-transparent px-4 text-center text-sm text-nowrap shadow-sm transition lg:w-auto",
+              "h-8 w-full rounded-md border border-transparent px-4 text-center text-sm text-nowrap shadow-sm transition lg:w-auto",
               "flex items-center justify-center text-muted-foreground hover:bg-accent/60 hover:text-foreground",
               "focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none",
               item.active &&
-                "border-primary/40 bg-primary/10 text-primary hover:bg-primary/15",
+                "border-primary/40 bg-primary/10 text-primary hover:bg-primary/10",
             )}
           >
             {item.label}

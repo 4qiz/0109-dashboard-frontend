@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { AlertCircle, AlertTriangle, CheckCircle2, ChevronRight, Circle } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Badge } from "@/shared/ui/badge";
 import { appRoutes } from "../constants/app-routes";
 import { cn } from "@/shared/lib/utils";
@@ -18,6 +18,46 @@ interface DiskCardProps {
   operationalStatus: string;
 }
 
+const getStatusVisual = (status: string) => {
+  switch (status.toUpperCase()) {
+    case "OK":
+      return {
+        cardClass: "",
+        edgeGradientClass: "",
+        iconClass: "text-emerald-500/90",
+        srLabel: "OK",
+      };
+
+    case "WARNING":
+      return {
+        cardClass:
+          "border-orange-400/60 bg-gradient-to-br from-orange-500/10 via-background to-background",
+        edgeGradientClass: "from-transparent via-amber-400/10 to-orange-400/25",
+        iconClass: "text-amber-500/95",
+        srLabel: "WARNING",
+      };
+
+    case "CRITICAL":
+      return {
+        cardClass:
+          "border-red-400/70 bg-gradient-to-br from-red-500/10 via-background to-background",
+        edgeGradientClass: "from-transparent via-red-400/15 to-rose-500/25",
+        iconClass: "text-red-500",
+        srLabel: "CRITICAL",
+      };
+
+    default:
+      return {
+        cardClass:
+          "border-border bg-gradient-to-br from-muted/60 via-background to-background",
+        edgeGradientClass:
+          "from-transparent via-muted-foreground/10 to-muted-foreground/25",
+        iconClass: "text-muted-foreground",
+        srLabel: "UNKNOWN",
+      };
+  }
+};
+
 export function DiskCard({
   idCluster,
   idMachine,
@@ -29,61 +69,6 @@ export function DiskCard({
   diskType,
   operationalStatus,
 }: DiskCardProps) {
-  const getStatusVisual = (status: string) => {
-    switch (status.toUpperCase()) {
-      case "OK":
-        return {
-          cardClass:
-            "border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-background to-background",
-          edgeGradientClass: "from-transparent via-emerald-400/10 to-cyan-400/30",
-          iconClass: "text-cyan-500/75",
-          srLabel: "OK",
-        };
-
-      case "WARNING":
-        return {
-          cardClass:
-            "border-orange-400/60 bg-gradient-to-br from-orange-500/10 via-background to-background",
-          edgeGradientClass:
-            "from-transparent via-amber-400/10 to-orange-400/25",
-          iconClass: "text-amber-500/95",
-          srLabel: "WARNING",
-        };
-
-      case "CRITICAL":
-        return {
-          cardClass:
-            "border-red-400/70 bg-gradient-to-br from-red-500/10 via-background to-background",
-          edgeGradientClass: "from-transparent via-red-400/15 to-rose-500/25",
-          iconClass: "text-red-500",
-          srLabel: "CRITICAL",
-        };
-
-      default:
-        return {
-          cardClass:
-            "border-border bg-gradient-to-br from-muted/60 via-background to-background",
-          edgeGradientClass:
-            "from-transparent via-muted-foreground/10 to-muted-foreground/25",
-          iconClass: "text-muted-foreground",
-          srLabel: "UNKNOWN",
-        };
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status.toUpperCase()) {
-      case "OK":
-        return <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />;
-      case "WARNING":
-        return <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />;
-      case "CRITICAL":
-        return <AlertCircle className="h-3.5 w-3.5" aria-hidden="true" />;
-      default:
-        return <Circle className="h-3.5 w-3.5" aria-hidden="true" />;
-    }
-  };
-
   const isCritical = operationalStatus.toUpperCase() === "CRITICAL";
   const statusVisual = getStatusVisual(operationalStatus);
 
@@ -95,10 +80,9 @@ export function DiskCard({
       <Card
         className={cn(
           "relative overflow-hidden transition-all duration-300 cursor-pointer  hover:shadow-xl",
-          statusVisual.cardClass
+          statusVisual.cardClass,
         )}
       >
- 
         <div
           className={cn(
             "pointer-events-none absolute inset-y-0 right-0 w-[46%] bg-linear-to-r transition-opacity",
@@ -106,7 +90,7 @@ export function DiskCard({
             statusVisual.edgeGradientClass,
             isCritical
               ? "animate-[pulse_3.8s_ease-in-out_infinite]"
-              : "animate-[pulse_6s_ease-in-out_infinite]"
+              : "animate-[pulse_6s_ease-in-out_infinite]",
           )}
         />
 
@@ -125,13 +109,16 @@ export function DiskCard({
                 title={statusVisual.srLabel}
                 className={statusVisual.iconClass}
               >
-                {getStatusIcon(operationalStatus)}
+                <div
+                  className="h-3 w-3 rounded-full bg-current"
+                  aria-hidden="true"
+                />
               </span>
             </div>
 
             <p className="text-sm text-muted-foreground truncate">{serial}</p>
           </div>
-          <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0 transition-transform duration-900 group-hover:translate-x-0.5" />
+          <ChevronRight className="h-6 w-6 text-muted-foreground shrink-0 transition-transform duration-900 group-hover:translate-x-0.5" />
         </CardHeader>
         <CardContent className="relative">
           <div className="flex flex-wrap gap-2">
