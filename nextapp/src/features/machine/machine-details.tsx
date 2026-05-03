@@ -139,7 +139,7 @@ export const MachineDetails = ({
             <MemorySlotsCard
               memoryUnits={machine.memoryUnits}
               totalSlots={machine.memorySlotsCount || 4}
-              maxCapacityKB={machine.maxMemoryCapacity}
+              maxCapacityGB={machine.maxMemoryCapacity}
             />
           </div>
         )}

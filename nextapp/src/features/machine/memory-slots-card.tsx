@@ -6,13 +6,13 @@ import { MemorySlotCard } from "./memory-slot-card";
 interface MemorySlotsVisualizerProps {
   memoryUnits: MemoryUnitDto[];
   totalSlots: number;
-  maxCapacityKB?: number;
+  maxCapacityGB?: number;
 }
 
 export const MemorySlotsCard = ({
   memoryUnits,
   totalSlots,
-  maxCapacityKB,
+  maxCapacityGB,
 }: MemorySlotsVisualizerProps) => {
   const totalMemoryGB = memoryUnits.reduce(
     (sum, unit) => sum + unit.capacityGB,
@@ -66,10 +66,9 @@ export const MemorySlotsCard = ({
         </div>
 
         {/* Max Capacity Info */}
-        {maxCapacityKB && (
+        {maxCapacityGB && (
           <div className="text-xs text-muted-foreground text-center p-2 bg-muted/30 rounded-lg">
-            Максимальная поддерживаемая ёмкость:{" "}
-            {Math.round(maxCapacityKB / 1024 / 1024)} ГБ
+            Максимальная поддерживаемая ёмкость: {Math.round(maxCapacityGB)} ГБ
           </div>
         )}
       </CardContent>
