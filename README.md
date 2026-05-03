@@ -8,13 +8,20 @@
     <br />
   </p>
   <a>
-    <img src="./readme/main.PNG" alt=".">
+    <img src="./readme/main.PNG" alt="Cluster page">
   </a>
+  <p align="center"><i>Cluster page</i></p>
+  <br />
+  <a>
+    <img src="./readme/machine.PNG" alt="Machine details page">
+  </a>
+  <p align="center"><i>Machine Details page</i></p>
   <br />
   </p>
     <a>
-    <img src="./readme/volumes.PNG" alt=".">
+    <img src="./readme/volumes.PNG" alt="Disc page">
   </a>
+  <p align="center"><i>Disc page</i></p>
 </div>
 
 ---
