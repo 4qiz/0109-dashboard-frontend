@@ -24,7 +24,6 @@ const getOperationalColor = (status: string) => {
 
 export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
   const properties = disk.diskProperties;
-
   return (
     <div className="min-h-screen container max-w-4xl mx-auto">
       <Header

@@ -1,4 +1,5 @@
 import { DiskPropertyDto } from "@/entities/disk/dto/disk-dto";
+import { getSmartDataTransferLabels } from "@/shared/lib/format-smart-data-units";
 import { Card, CardContent } from "@/shared/ui/card";
 
 type SmartSummaryItem = {
@@ -87,6 +88,25 @@ const buildSmartSummaryItems = (
     },
     []
   );
+
+  const { written: dataWritten, read: dataRead } =
+    getSmartDataTransferLabels(properties);
+
+  if (dataWritten) {
+    summaryItems.push({
+      key: "dataUnitsWritten",
+      label: "Записано данных",
+      value: dataWritten,
+    });
+  }
+
+  if (dataRead) {
+    summaryItems.push({
+      key: "dataUnitsRead",
+      label: "Прочитано данных",
+      value: dataRead,
+    });
+  }
 
   const unsafeShutdowns = propertiesByName.get(
     normalizePropertyName("unsafe_shutdowns")
