@@ -9,6 +9,8 @@ export const appRoutes = {
   clusterDisks: (clusterId: number) => `/clusters/${clusterId}/disks`,
   machine: (clusterId: number, machineId: number) =>
     `/clusters/${clusterId}/machines/${machineId}`,
+  machineHistory: (clusterId: number, machineId: number) =>
+    `/clusters/${clusterId}/machines/${machineId}/history`,
   disk: (clusterId: number, machineId: number, diskId: number) =>
     `/clusters/${clusterId}/machines/${machineId}/disks/${diskId}`,
 

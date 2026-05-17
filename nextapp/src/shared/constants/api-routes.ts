@@ -8,5 +8,7 @@ export const apiRoutes = {
   getCluster: (id: number) => `${API_BASE_URL}/api/Clusters/${id}`,
   getClusterDisks: (id: number) => `${API_BASE_URL}/api/Clusters/${id}/Disks`,
   getMachine: (id: number) => `${API_BASE_URL}/api/Machines/${id}`,
+  getMachineHistory: (id: number, take = 100, skip = 0) =>
+    `${API_BASE_URL}/api/Machine/${id}/History?take=${take}&skip=${skip}`,
   getDisk: (id: number) => `${API_BASE_URL}/api/Disks/${id}`,
 };

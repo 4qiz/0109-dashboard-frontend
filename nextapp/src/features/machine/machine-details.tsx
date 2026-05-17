@@ -18,6 +18,7 @@ import { MemorySlotsCard } from "./memory-slots-card";
 import { NICCard } from "./nic-card";
 import { GpuCard } from "./gpu-card";
 import { Header } from "@/shared/components/header";
+import { MachineRowMenu } from "./machine-row-menu";
 
 export const MachineDetails = ({
   machine,
@@ -36,7 +37,13 @@ export const MachineDetails = ({
         icon={<Monitor className="h-6 w-6 text-primary shrink-0" />}
       />
 
-      <div className="   px-4 py-6 space-y-6">
+      <div className="px-4 py-6 space-y-6">
+        <MachineRowMenu
+          clusterId={idCluster}
+          machineId={machine.idMachine}
+          activePage="configuration"
+        />
+
         {/* General Information */}
         <Card>
           <CardHeader>
