@@ -23,23 +23,23 @@ export function VolumeChartCard({ volume }: VolumeChartCardProps) {
     {
       name: "used",
       value: Number(usedSpace.toFixed(2)),
-      fill: "var(--chart-1)",
+      fill: "var(--status-danger)",
     },
     {
       name: "free",
       value: Number(volume.freeSpaceGB.toFixed(2)),
-      fill: "var(--chart-2)",
+      fill: "var(--status-success)",
     },
   ];
 
   const chartConfig = {
     used: {
       label: "Занято",
-      color: "var(--chart-1)",
+      color: "var(--status-danger)",
     },
     free: {
       label: "Свободно",
-      color: "var(--chart-2)",
+      color: "var(--status-success)",
     },
   } satisfies ChartConfig;
 
@@ -123,14 +123,14 @@ export function VolumeChartCard({ volume }: VolumeChartCardProps) {
 
           <div className="flex justify-between">
             <span className="text-muted-foreground">Свободно:</span>
-            <span className="text-chart-2">
+            <span className="text-success">
               {formatSize(volume.freeSpaceGB)}
             </span>
           </div>
 
           <div className="flex justify-between">
             <span className="text-muted-foreground">Занято:</span>
-            <span className="text-chart-1">{formatSize(usedSpace)}</span>
+            <span className="text-danger">{formatSize(usedSpace)}</span>
           </div>
         </div>
       </CardContent>
