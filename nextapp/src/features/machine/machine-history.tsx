@@ -74,9 +74,7 @@ export const MachineHistory = ({
         ) : (
           <ol className="relative space-y-4">
             {sortedItems.map((item, index) => {
-              const { dot, icon: ChangeIcon } = getChangeStyles(
-                item.changeType,
-              );
+              const { dot } = getChangeStyles(item.changeType);
               const isFirst = index === 0;
               const isLast = index === sortedItems.length - 1;
 
@@ -110,9 +108,7 @@ export const MachineHistory = ({
                         dot,
                       )}
                       title={changeTypeLabels[item.changeType]}
-                    >
-                      <ChangeIcon className="h-2 w-2 text-background" />
-                    </span>
+                    ></span>
                   </div>
                   <div className="min-w-0 flex-1">
                     <HistoryEntryCard item={item} />

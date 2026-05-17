@@ -138,10 +138,8 @@ function CardBody({
           {item.componentName}
         </p>
 
-        <p className=" text-sm text-muted-foreground">
-          <span>{timeAgo}</span>
-          <span className="mx-1.5 text-border">·</span>
-          <span className="text-xs">{formatted}</span>
+        <p className="text-sm text-muted-foreground flex items-center">
+          <span title={formatted}>{timeAgo}</span>
         </p>
       </div>
 
