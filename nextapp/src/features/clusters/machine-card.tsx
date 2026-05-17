@@ -21,7 +21,7 @@ export const formatDisksCount = (count: number) =>
 
 // Функция для цвета индикатора диска
 const getDiskColor = (status: string) => {
-  switch (status) {
+  switch (status.toUpperCase()) {
     case "OK":
       return "bg-success";
     case "WARNING":
