@@ -25,15 +25,15 @@ const componentIcons: Record<string, LucideIcon> = {
 };
 
 const gradientFrom: Record<string, string> = {
-  Added: "from-green-500",
-  Removed: "from-red-500",
-  Modified: "from-yellow-500",
+  Added: "from-success",
+  Removed: "from-danger",
+  Modified: "from-warning",
 };
 
 const gradientTo: Record<string, string> = {
-  Added: "to-green-500",
-  Removed: "to-red-500",
-  Modified: "to-yellow-500",
+  Added: "to-success",
+  Removed: "to-danger",
+  Modified: "to-warning",
 };
 
 /** Линия от точки вниз к нейтральному (между карточками) */
@@ -52,28 +52,21 @@ export function getChangeStyles(changeType: string) {
   switch (changeType) {
     case "Added":
       return {
-        badgeClass:
-          "border-green-500/40 bg-green-500/10 text-green-500 hover:bg-green-500/10",
-        dot: "bg-green-500",
+        dot: "bg-success",
         icon: Plus,
       };
     case "Removed":
       return {
-        badgeClass:
-          "border-red-500/40 bg-red-500/10 text-red-500 hover:bg-red-500/10",
-        dot: "bg-red-500",
+        dot: "bg-danger",
         icon: Minus,
       };
     case "Modified":
       return {
-        badgeClass:
-          "border-yellow-500/40 bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/10",
-        dot: "bg-yellow-500",
+        dot: "bg-warning",
         icon: ArrowLeftRight,
       };
     default:
       return {
-        badgeClass: "border-border text-muted-foreground",
         dot: "bg-muted-foreground",
         icon: ArrowLeftRight,
       };

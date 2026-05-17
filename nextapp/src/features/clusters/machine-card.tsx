@@ -23,13 +23,13 @@ export const formatDisksCount = (count: number) =>
 const getDiskColor = (status: string) => {
   switch (status) {
     case "OK":
-      return "bg-green-500 border-green-600 dark:bg-green-400";
+      return "bg-success";
     case "WARNING":
-      return "bg-yellow-500 border-yellow-600 dark:bg-yellow-400";
+      return "bg-warning ";
     case "CRITICAL":
-      return "bg-red-500 border-red-600 dark:bg-red-400";
+      return "bg-danger";
     default:
-      return "bg-gray-400 border-gray-600 dark:bg-gray-500";
+      return "bg-gray-400 dark:bg-gray-500";
   }
 };
 
@@ -148,7 +148,7 @@ export function MachineCard({
                           className={cn(
                             "w-2 h-4 rounded-sm border transition-colors",
                             index < memoryUnitsCount
-                              ? "bg-green-500 border-green-600 dark:bg-green-400"
+                              ? "bg-success border-success-border"
                               : "bg-muted border-ring",
                           )}
                         />

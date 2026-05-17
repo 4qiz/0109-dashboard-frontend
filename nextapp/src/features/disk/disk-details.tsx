@@ -9,13 +9,13 @@ import { DiskSmartSummary } from "./disk-smart-summary";
 const getOperationalColor = (status: string) => {
   switch (status.toUpperCase()) {
     case "OK":
-      return "bg-green-500/10 text-green-700 dark:text-green-400";
+      return "bg-success-bg text-success-text ";
 
     case "WARNING":
-      return "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400";
+      return "bg-warning-bg text-warning-text ";
 
     case "CRITICAL":
-      return "bg-red-500/10 text-red-700 dark:text-red-400";
+      return "bg-danger-bg text-danger-text";
 
     default:
       return "bg-muted text-muted-foreground";
@@ -57,8 +57,6 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
           )}
         </div>
 
-       
-
         {/* Disk Volumes */}
         {disk.diskVolumes && disk.diskVolumes.length > 0 && (
           <div className="space-y-4">
@@ -73,8 +71,6 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
             </div>
           </div>
         )}
-
-
 
         {/* All Properties */}
         <div className="space-y-4">

@@ -24,7 +24,7 @@ const getStatusVisual = (status: string) => {
       return {
         cardClass: "",
         edgeGradientClass: "",
-        iconClass: "text-emerald-500/90",
+        iconClass: "text-success",
         srLabel: "OK",
       };
 
