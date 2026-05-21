@@ -1,4 +1,7 @@
-import { MachineHistoryDto } from "@/entities/machine/dto/machine-history-dto";
+import {
+  MachineHistoryDto,
+  MACHINE_HISTORY_CHANGE_TYPE,
+} from "@/entities/machine/dto/machine-history-dto";
 import { appRoutes } from "@/shared/constants/app-routes";
 import { pluralizeRu } from "@/shared/lib/pluralize-ru";
 import { cn } from "@/shared/lib/utils";
@@ -15,9 +18,9 @@ import {
 import { MachineRowMenu } from "./machine-row-menu";
 
 const changeTypeLabels: Record<string, string> = {
-  Added: "Добавлено",
-  Removed: "Удалено",
-  Modified: "Изменено",
+  [MACHINE_HISTORY_CHANGE_TYPE.Added]: "Добавлено",
+  [MACHINE_HISTORY_CHANGE_TYPE.Removed]: "Удалено",
+  [MACHINE_HISTORY_CHANGE_TYPE.Updated]: "Изменено",
 };
 
 export const MachineHistory = ({
@@ -34,7 +37,7 @@ export const MachineHistory = ({
   const sortedItems = [...history.items].sort(
     (a, b) => new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime(),
   );
-
+  console.log("Sorted history items:", sortedItems);
   const changeWord = pluralizeRu(
     history.total,
     "изменение",

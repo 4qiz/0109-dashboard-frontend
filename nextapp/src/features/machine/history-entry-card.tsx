@@ -1,19 +1,20 @@
-import { MachineHistoryItemDto } from "@/entities/machine/dto/machine-history-dto";
+import {
+  MachineHistoryItemDto,
+  MACHINE_HISTORY_CHANGE_TYPE,
+} from "@/entities/machine/dto/machine-history-dto";
 import { formatLastUpdate } from "@/shared/lib/format-last-update";
 import { jsonToProperties } from "@/shared/lib/json-to-properties";
 import { cn } from "@/shared/lib/utils";
 import { Separator } from "@/shared/ui/separator";
 import {
-  ArrowLeftRight,
   ChevronDown,
   Cpu,
   Gpu,
   HardDrive,
   LucideIcon,
   MemoryStick,
-  Minus,
+  Monitor,
   Network,
-  Plus,
 } from "lucide-react";
 
 const componentIcons: Record<string, LucideIcon> = {
@@ -22,18 +23,19 @@ const componentIcons: Record<string, LucideIcon> = {
   MemoryUnit: MemoryStick,
   Nic: Network,
   Cpu,
+  Machine: Monitor,
 };
 
 const gradientFrom: Record<string, string> = {
-  Added: "from-success",
-  Removed: "from-danger",
-  Modified: "from-warning",
+  [MACHINE_HISTORY_CHANGE_TYPE.Added]: "from-success",
+  [MACHINE_HISTORY_CHANGE_TYPE.Removed]: "from-danger",
+  [MACHINE_HISTORY_CHANGE_TYPE.Updated]: "from-warning",
 };
 
 const gradientTo: Record<string, string> = {
-  Added: "to-success",
-  Removed: "to-danger",
-  Modified: "to-warning",
+  [MACHINE_HISTORY_CHANGE_TYPE.Added]: "to-success",
+  [MACHINE_HISTORY_CHANGE_TYPE.Removed]: "to-danger",
+  [MACHINE_HISTORY_CHANGE_TYPE.Updated]: "to-warning",
 };
 
 /** Линия от точки вниз к нейтральному (между карточками) */
@@ -50,44 +52,93 @@ export function getUpperLineGradient(changeType: string) {
 
 export function getChangeStyles(changeType: string) {
   switch (changeType) {
-    case "Added":
+    case MACHINE_HISTORY_CHANGE_TYPE.Added:
       return {
         dot: "bg-success",
-        icon: Plus,
       };
-    case "Removed":
+    case MACHINE_HISTORY_CHANGE_TYPE.Removed:
       return {
         dot: "bg-danger",
-        icon: Minus,
       };
-    case "Modified":
+    case MACHINE_HISTORY_CHANGE_TYPE.Updated:
       return {
         dot: "bg-warning",
-        icon: ArrowLeftRight,
       };
     default:
       return {
         dot: "bg-muted-foreground",
-        icon: ArrowLeftRight,
       };
   }
+}
+
+type DiffedProperty = ReturnType<typeof jsonToProperties>[number] & {
+  isChanged?: boolean;
+};
+
+function getUpdatedPropertyStates(
+  oldProperties: ReturnType<typeof jsonToProperties>,
+  newProperties: ReturnType<typeof jsonToProperties>,
+) {
+  const oldMap = new Map(oldProperties.map((item) => [item.propertyName, item]));
+  const newMap = new Map(newProperties.map((item) => [item.propertyName, item]));
+
+  const propertyNames = Array.from(
+    new Set([
+      ...oldProperties.map((item) => item.propertyName),
+      ...newProperties.map((item) => item.propertyName),
+    ]),
+  );
+
+  const diffedOldProperties: DiffedProperty[] = [];
+  const diffedNewProperties: DiffedProperty[] = [];
+
+  propertyNames.forEach((propertyName) => {
+    const oldProp = oldMap.get(propertyName);
+    const newProp = newMap.get(propertyName);
+    const oldValue = oldProp?.value ?? "";
+    const newValue = newProp?.value ?? "";
+    const isChanged = oldValue !== newValue;
+
+    if (oldProp) {
+      diffedOldProperties.push({ ...oldProp, isChanged });
+    }
+    if (newProp) {
+      diffedNewProperties.push({ ...newProp, isChanged });
+    }
+  });
+
+  return {
+    oldProperties: diffedOldProperties,
+    newProperties: diffedNewProperties,
+  };
 }
 
 function PropertyBlock({
   title,
   properties,
+  variant,
 }: {
   title: string;
-  properties: ReturnType<typeof jsonToProperties>;
+  properties: DiffedProperty[];
+  variant?: "success" | "danger";
 }) {
   if (properties.length === 0) return null;
 
+  const containerClassName = cn(
+    "rounded-xl border p-4",
+    variant === "success"
+      ? "border-success-border bg-success-bg"
+      : variant === "danger"
+      ? "border-danger-border bg-danger-bg"
+      : "border-border bg-card",
+  );
+
   return (
-    <div className="space-y-3">
+    <div className={containerClassName}>
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
         {title}
       </p>
-      <div className="space-y-3">
+      <div className="space-y-3 pt-3">
         {properties.map((prop, index) => (
           <div key={`${prop.propertyName}-${index}`}>
             {index > 0 && <Separator className="my-3" />}
@@ -95,7 +146,20 @@ function PropertyBlock({
               <p className="text-sm text-muted-foreground">
                 {prop.propertyName}
               </p>
-              <p className="text-sm break-all">{prop.value}</p>
+              <p
+                className={cn(
+                  "text-sm break-all",
+                  prop.isChanged
+                    ? variant === "success"
+                      ? "text-success-text"
+                      : variant === "danger"
+                      ? "text-danger-text"
+                      : "text-foreground"
+                    : "text-foreground",
+                )}
+              >
+                {prop.value}
+              </p>
             </div>
           </div>
         ))}
@@ -155,14 +219,27 @@ function DetailsContent({
   oldProperties: ReturnType<typeof jsonToProperties>;
   newProperties: ReturnType<typeof jsonToProperties>;
 }) {
+  const { oldProperties: diffedOldProperties, newProperties: diffedNewProperties } =
+    item.changeType === MACHINE_HISTORY_CHANGE_TYPE.Updated
+      ? getUpdatedPropertyStates(oldProperties, newProperties)
+      : { oldProperties, newProperties };
+
   return (
     <div className="mt-3 border-t border-border/60 pt-3 space-y-4">
-      {item.changeType === "Modified" ? (
+      {item.changeType === MACHINE_HISTORY_CHANGE_TYPE.Updated ? (
         <div className="grid gap-4 md:grid-cols-2">
-          <PropertyBlock title="Было" properties={oldProperties} />
-          <PropertyBlock title="Стало" properties={newProperties} />
+          <PropertyBlock
+            title="Было"
+            properties={diffedOldProperties}
+            variant="danger"
+          />
+          <PropertyBlock
+            title="Стало"
+            properties={diffedNewProperties}
+            variant="success"
+          />
         </div>
-      ) : item.changeType === "Added" ? (
+      ) : item.changeType === MACHINE_HISTORY_CHANGE_TYPE.Added ? (
         <PropertyBlock title="Новое состояние" properties={newProperties} />
       ) : (
         <PropertyBlock title="Старое состояние" properties={oldProperties} />
@@ -174,7 +251,7 @@ function DetailsContent({
 export function HistoryEntryCard({ item }: { item: MachineHistoryItemDto }) {
   const { timeAgo, formatted } = formatLastUpdate(item.changedAt);
   const styles = getChangeStyles(item.changeType);
-  const ChangeIcon = styles.icon;
+
   const ComponentIcon = componentIcons[item.componentType] ?? Cpu;
 
   const oldProperties = jsonToProperties(item.oldValueJson);
@@ -187,7 +264,6 @@ export function HistoryEntryCard({ item }: { item: MachineHistoryItemDto }) {
   const bodyProps = {
     item,
     styles,
-    ChangeIcon,
     ComponentIcon,
     timeAgo,
     formatted,

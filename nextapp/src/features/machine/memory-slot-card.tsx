@@ -135,14 +135,14 @@ export const MemorySlotCard = ({
               <div className="font-medium">{unit.memoryType}</div>
             </div>
             <div className="col-span-2">
-              <div className="text-muted-foreground">Part Number</div>
+              <div className="text-muted-foreground">Номер детали</div>
               <div className="font-mono text-[11px]">
                 {unit.partNumber.trim()}
               </div>
             </div>
             {unit.serialNumber !== "00000000" && (
               <div className="col-span-2">
-                <div className="text-muted-foreground">Serial Number</div>
+                <div className="text-muted-foreground">Серийный номер</div>
                 <div className="font-mono text-[11px]">{unit.serialNumber}</div>
               </div>
             )}

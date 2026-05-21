@@ -5,7 +5,15 @@ export type MachineHistoryComponentType =
   | "Nic"
   | string;
 
-export type MachineHistoryChangeType = "Added" | "Removed" | "Modified" | string;
+export const MACHINE_HISTORY_CHANGE_TYPE = {
+  Added: "Added",
+  Removed: "Removed",
+  Updated: "Updated",
+} as const;
+
+export type MachineHistoryChangeType =
+  | (typeof MACHINE_HISTORY_CHANGE_TYPE)[keyof typeof MACHINE_HISTORY_CHANGE_TYPE]
+  | string;
 
 export interface MachineHistoryItemDto {
   idRecord: number;

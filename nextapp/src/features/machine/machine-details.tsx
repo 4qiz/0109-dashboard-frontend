@@ -96,22 +96,25 @@ export const MachineDetails = ({
               collapsed
               title={cpu.name}
               properties={[
-                { propertyName: "Device ID", value: cpu.systemDeviceId },
-                { propertyName: "Manufacturer", value: cpu.manufacturer },
                 {
-                  propertyName: "Physical Cores",
+                  propertyName: "Идентификатор устройства",
+                  value: cpu.systemDeviceId,
+                },
+                { propertyName: "Производитель", value: cpu.manufacturer },
+                {
+                  propertyName: "Физические ядра",
                   value: String(cpu.physicalCoreNumber),
                 },
                 {
-                  propertyName: "Logical Cores",
+                  propertyName: "Логические ядра",
                   value: String(cpu.logicalCoreNumber),
                 },
-                { propertyName: "Max Clock", value: `${cpu.maxClock} MHz` },
-                { propertyName: "Socket", value: cpu.socketDesignation },
-                { propertyName: "Hardware ID", value: cpu.cpuHardwareId },
+                { propertyName: "Макс. частота", value: `${cpu.maxClock} МГц` },
+                { propertyName: "Сокет", value: cpu.socketDesignation },
+                { propertyName: "Аппаратный ID", value: cpu.cpuHardwareId },
                 {
-                  propertyName: "Virtualisation",
-                  value: cpu.isVirtualisationEnabled ? "Enabled" : "Disabled",
+                  propertyName: "Виртуализация",
+                  value: cpu.isVirtualisationEnabled ? "Включено" : "Отключено",
                 },
               ]}
             />

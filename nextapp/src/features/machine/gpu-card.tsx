@@ -84,7 +84,7 @@ export const GpuCard = ({ gpu }: { gpu: GpuDto }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <p className="text-xs text-muted-foreground">Объем</p>
-                <p className="text-sm">{gpu.memSize} МБ</p>
+                <p className="text-sm">{gpu.memSize} GB</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Тип</p>
