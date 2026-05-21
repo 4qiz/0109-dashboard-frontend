@@ -5,6 +5,7 @@ import { Database, Disc3, Info } from "lucide-react";
 import { VolumeChartCard } from "./volume-chart-card";
 import { Header } from "@/shared/components/header";
 import { DiskSmartSummary } from "./disk-smart-summary";
+import { MachineBreadcrumb } from "@/shared/components/machine-breadcrumb";
 
 const getOperationalColor = (status: string) => {
   switch (status.toUpperCase()) {
@@ -22,7 +23,19 @@ const getOperationalColor = (status: string) => {
   }
 };
 
-export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
+export const DiskDetails = ({
+  disk,
+  clusterId,
+  machineId,
+  machineHostname,
+  clusterName,
+}: {
+  disk: DiskDto;
+  clusterId: number;
+  machineId: number;
+  machineHostname: string;
+  clusterName: string;
+}) => {
   const properties = disk.diskProperties;
   return (
     <div className="min-h-screen container max-w-4xl mx-auto">
@@ -33,6 +46,15 @@ export const DiskDetails = ({ disk }: { disk: DiskDto }) => {
       />
 
       <div className=" px-6 py-6 space-y-6">
+        <MachineBreadcrumb
+          clusterName={clusterName}
+          clusterId={clusterId}
+          machineId={machineId}
+          machineHostname={machineHostname}
+          diskId={disk.idDisk}
+          diskName={disk.name}
+          type="disk"
+        />
         {/* Disk Summary */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">

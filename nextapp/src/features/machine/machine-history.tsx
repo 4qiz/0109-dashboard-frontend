@@ -16,6 +16,7 @@ import {
   HistoryEntryCard,
 } from "./history-entry-card";
 import { MachineRowMenu } from "./machine-row-menu";
+import { MachineBreadcrumb } from "@/shared/components/machine-breadcrumb";
 
 const changeTypeLabels: Record<string, string> = {
   [MACHINE_HISTORY_CHANGE_TYPE.Added]: "Добавлено",
@@ -28,11 +29,13 @@ export const MachineHistory = ({
   machineId,
   hostname,
   history,
+  clusterName,
 }: {
   clusterId: number;
   machineId: number;
   hostname: string;
   history: MachineHistoryDto;
+  clusterName: string;
 }) => {
   const sortedItems = [...history.items].sort(
     (a, b) => new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime(),
@@ -60,6 +63,14 @@ export const MachineHistory = ({
       />
 
       <div className="px-4 py-6 space-y-6">
+        <MachineBreadcrumb
+          clusterName={clusterName}
+          clusterId={clusterId}
+          machineId={machineId}
+          machineHostname={hostname}
+          type="history"
+        />
+
         <MachineRowMenu
           clusterId={clusterId}
           machineId={machineId}

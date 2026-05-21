@@ -19,13 +19,16 @@ import { NICCard } from "./nic-card";
 import { GpuCard } from "./gpu-card";
 import { Header } from "@/shared/components/header";
 import { MachineRowMenu } from "./machine-row-menu";
+import { MachineBreadcrumb } from "@/shared/components/machine-breadcrumb";
 
 export const MachineDetails = ({
   machine,
   idCluster,
+  clusterName,
 }: {
   idCluster: number;
   machine: MachineDto;
+  clusterName: string;
 }) => {
   const { timeAgo } = formatLastUpdate(machine.lastUpdate);
 
@@ -38,6 +41,14 @@ export const MachineDetails = ({
       />
 
       <div className="px-4 py-6 space-y-6">
+        <MachineBreadcrumb
+          clusterName={clusterName}
+          clusterId={idCluster}
+          machineId={machine.idMachine}
+          machineHostname={machine.hostname}
+          type="machine"
+        />
+
         <MachineRowMenu
           clusterId={idCluster}
           machineId={machine.idMachine}

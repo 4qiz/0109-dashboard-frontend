@@ -1,4 +1,5 @@
 import { getDiskAsync } from "@/entities/disk/services/get-disk";
+import { getClusterAsync } from "@/entities/cluster/services/get-cluster";
 import { DiskDetails } from "@/features/disk/disk-details";
 import { MessageCard } from "@/shared/components/message-card";
 import { AlertTriangleIcon } from "lucide-react";
@@ -10,18 +11,36 @@ const DiskPage = async ({
 }: {
   params: Promise<{ clusterId: string; machineId: string; diskId: string }>;
 }) => {
-  const { diskId } = await params;
-  const { disk, error } = await getDiskAsync(Number(diskId));
-  if (!disk || error) {
+  const { clusterId, machineId, diskId } = await params;
+  const clusterIdNum = Number(clusterId);
+  const machineIdNum = Number(machineId);
+
+  const [{ disk, error: diskError }, { cluster }] = await Promise.all([
+    getDiskAsync(Number(diskId)),
+    getClusterAsync(clusterIdNum),
+  ]);
+
+  if (!disk || diskError) {
     return (
       <MessageCard
         icon={<AlertTriangleIcon />}
-        message={error || "Диск не найден"}
+        message={diskError || "Диск не найден"}
       />
     );
   }
 
-  return <DiskDetails disk={disk} />;
+  const machineHostname = disk.masterComputer ?? `ПК #${machineIdNum}`;
+  const clusterName = cluster?.name ?? `Кластер ${clusterIdNum}`;
+
+  return (
+    <DiskDetails
+      disk={disk}
+      clusterId={clusterIdNum}
+      machineId={machineIdNum}
+      machineHostname={machineHostname}
+      clusterName={clusterName}
+    />
+  );
 };
 
 export default DiskPage;
