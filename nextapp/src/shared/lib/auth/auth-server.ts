@@ -85,3 +85,11 @@ export const clearAuthCookies = async () => {
   cookieStore.delete(ACCESS_COOKIE);
   cookieStore.delete(REFRESH_COOKIE);
 };
+
+export const clearAuthCookiesOnResponse = (res: NextResponse) => {
+  console.log(
+    "[auth-server] clearAuthCookiesOnResponse called — deleting auth cookies",
+  );
+  res.cookies.set(ACCESS_COOKIE, "", { path: "/", maxAge: 0 });
+  res.cookies.set(REFRESH_COOKIE, "", { path: "/", maxAge: 0 });
+};
