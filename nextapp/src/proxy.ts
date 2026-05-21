@@ -7,6 +7,10 @@ export function proxy(req: NextRequest) {
   const access = req.cookies.get("accessToken")?.value;
   const refresh = req.cookies.get("refreshToken")?.value;
 
+  console.log(
+    `[proxy] incoming request ${new Date().toISOString()} path=${pathname} access(len=${access?.length || 0}) refresh(len=${refresh?.length || 0})`,
+  );
+
   const isLoginPage = pathname === appRoutes.login;
 
   if (!access && refresh) {

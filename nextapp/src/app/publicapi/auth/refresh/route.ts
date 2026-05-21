@@ -3,7 +3,7 @@ import { appRoutes } from "@/shared/constants/app-routes";
 import {
   clearAuthCookies,
   getRefreshToken,
-  setAuthCookies,
+  setAuthCookiesOnResponse,
 } from "@/shared/lib/auth/auth-server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,6 +11,10 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const refreshToken = await getRefreshToken();
   const returnTo = req.nextUrl.searchParams.get("returnTo") || appRoutes.home();
+
+  console.log(
+    `[/publicapi/auth/refresh] incoming refresh request — refreshToken(len=${refreshToken?.length || 0}) returnTo=${returnTo}`,
+  );
 
   if (!refreshToken) {
     const redirectUrl = new URL(appRoutes.abs.login());
@@ -41,14 +45,16 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await res.json();
-    await setAuthCookies(data.accessToken, data.refreshToken);
 
     const redirectUrl = new URL(returnTo, appRoutes.abs.home());
     console.log(
-      "[/publicapi/auth/refresh] - success - get new tokens, redirect back",
+      "[/publicapi/auth/refresh] - success - got new tokens, setting cookies on response and redirecting back to",
       redirectUrl,
     );
-    return NextResponse.redirect(redirectUrl);
+
+    const response = NextResponse.redirect(redirectUrl);
+    setAuthCookiesOnResponse(response, data.accessToken, data.refreshToken);
+    return response;
   } catch (error) {
     console.error("Refresh token error:", error);
     await clearAuthCookies();
