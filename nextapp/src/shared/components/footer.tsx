@@ -1,9 +1,28 @@
+"use client";
+
+import { useRef, useState } from "react";
+
 export function Footer() {
+  const [playing, setPlaying] = useState(false);
+  const [fadingOut, setFadingOut] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  function handleCatClick() {
+    if (playing) return;
+    setPlaying(true);
+    setFadingOut(false);
+  }
+
+  function handleEnded() {
+    setFadingOut(true);
+    window.setTimeout(() => setPlaying(false), 500);
+  }
+
   return (
     <footer className="flex items-center justify-center w-full p-14 pt-20 border-t bg-linear-to-r from-purple-50 via-pink-50 to-blue-50 dark:from-purple-950/20 dark:via-pink-950/20 dark:to-blue-950/20">
       <div className="loader">
         <div className="wrapper">
-          <div className="catContainer">
+          <div className="catContainer relative cursor-pointer" onClick={handleCatClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -38,6 +57,24 @@ export function Footer() {
               <span className="bigzzz">Z</span>
               <span className="zzz ">Z</span>
             </div>
+
+            {playing && (
+              <div
+                className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 ease-in-out ${
+                  fadingOut ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <video
+                  ref={videoRef}
+                  src="/sticker.webm"
+                  autoPlay
+                  playsInline
+                  muted
+                  onEnded={handleEnded}
+                  className="max-w-full max-h-full object-contain transform scale-150 origin-center"
+                />
+              </div>
+            )}
           </div>
           <div className="wallContainer">
             <svg
