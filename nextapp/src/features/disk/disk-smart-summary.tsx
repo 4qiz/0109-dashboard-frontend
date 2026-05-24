@@ -44,6 +44,12 @@ const smartSummaryConfig: SmartSummaryConfigItem[] = [
     visibleFor: "ssd",
   },
   {
+    key: "total_lbas_written",
+    label: "Записано данных (GB)",
+    propertyAliases: ["total_lbas_written"],
+    visibleFor: "ssd",
+  },
+  {
     key: "ssdWear",
     label: "Износ SSD (%)",
     propertyAliases: ["percentage_used", "percentageused"],
@@ -53,19 +59,18 @@ const smartSummaryConfig: SmartSummaryConfigItem[] = [
 const normalizePropertyName = (name: string) =>
   name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
-
-
-const normalizeDiskType = (diskType?: string) => diskType?.trim().toLowerCase() ?? "";
+const normalizeDiskType = (diskType?: string) =>
+  diskType?.trim().toLowerCase() ?? "";
 
 const buildSmartSummaryItems = (
   properties: DiskPropertyDto[],
-  diskType?: string
+  diskType?: string,
 ): SmartSummaryItem[] => {
   const propertiesByName = new Map(
     properties.map((property) => [
       normalizePropertyName(property.propertyName),
       property.value,
-    ])
+    ]),
   );
 
   const normalizedDiskType = normalizeDiskType(diskType);
@@ -86,7 +91,7 @@ const buildSmartSummaryItems = (
 
       return acc;
     },
-    []
+    [],
   );
 
   const { written: dataWritten, read: dataRead } =
@@ -109,7 +114,7 @@ const buildSmartSummaryItems = (
   }
 
   const unsafeShutdowns = propertiesByName.get(
-    normalizePropertyName("unsafe_shutdowns")
+    normalizePropertyName("unsafe_shutdowns"),
   );
 
   if (unsafeShutdowns) {

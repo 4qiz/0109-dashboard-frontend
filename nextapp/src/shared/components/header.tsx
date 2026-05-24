@@ -19,12 +19,12 @@ export const Header = ({ title, description, icon }: HeaderProps) => {
           <div className="hidden md:block">{icon}</div>
 
           <div className="flex-1 min-w-0 overflow-hidden">
-            <div className="relative overflow-hidden w-full">
+            <div className="relative overflow-x-auto w-full">
               <div className="flex w-max gap-12">
-                <h1 className="text-2xl text-nowrap text-clip ">{title}</h1>
+                <h1 className="text-2xl whitespace-nowrap text-clip ">
+                  {title}
+                </h1>
               </div>
-
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-linear-to-l from-background"></div>
             </div>
             <p className="text-sm text-muted-foreground">{description}</p>
           </div>

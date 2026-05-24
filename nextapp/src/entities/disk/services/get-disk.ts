@@ -19,6 +19,10 @@ export const getDiskAsync = async (
       };
     }
 
+    if (response.status === 204) {
+      return { disk: null };
+    }
+
     const data = (await response.json()) as DiskDto;
     return { disk: data || null };
   } catch (err) {

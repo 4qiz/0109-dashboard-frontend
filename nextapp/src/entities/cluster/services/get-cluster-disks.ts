@@ -16,6 +16,9 @@ export const getClusterDisksAsync = async (
       return { disks: [], error: "Ошибка при получении дисков кластера" };
     }
 
+    if (response.status === 204) {
+      return { disks: [] };
+    }
     const data = (await response.json()) as DiskDto[];
     return { disks: data || [] };
   } catch (err) {

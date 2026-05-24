@@ -10,7 +10,9 @@ export const getMachineHistoryAsync = async (
   const skip = options?.skip ?? 0;
 
   try {
-    const response = await authFetch(apiRoutes.getMachineHistory(id, take, skip));
+    const response = await authFetch(
+      apiRoutes.getMachineHistory(id, take, skip),
+    );
 
     if (!response.ok) {
       // 404 означает, что изменений пока нет - это не ошибка
@@ -34,6 +36,19 @@ export const getMachineHistoryAsync = async (
       return {
         history: null,
         error: "Ошибка при получении истории изменений",
+      };
+    }
+
+    if (response.status === 204) {
+      return {
+        history: {
+          items: [],
+          total: 0,
+          skip,
+          take,
+          hasNext: false,
+          hasPrevious: false,
+        },
       };
     }
 

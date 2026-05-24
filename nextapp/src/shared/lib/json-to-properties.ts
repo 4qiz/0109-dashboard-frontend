@@ -28,6 +28,7 @@ export function jsonToProperties(
   if (!json) return [];
 
   return Object.entries(json)
+    .filter(([key]) => key !== "IdMachine" && key !== "idMachine")
     .map(([key, value]) => {
       const formatted = formatPropertyValue(value);
       if (formatted === null) return null;

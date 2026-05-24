@@ -79,8 +79,12 @@ function getUpdatedPropertyStates(
   oldProperties: ReturnType<typeof jsonToProperties>,
   newProperties: ReturnType<typeof jsonToProperties>,
 ) {
-  const oldMap = new Map(oldProperties.map((item) => [item.propertyName, item]));
-  const newMap = new Map(newProperties.map((item) => [item.propertyName, item]));
+  const oldMap = new Map(
+    oldProperties.map((item) => [item.propertyName, item]),
+  );
+  const newMap = new Map(
+    newProperties.map((item) => [item.propertyName, item]),
+  );
 
   const propertyNames = Array.from(
     new Set([
@@ -129,8 +133,8 @@ function PropertyBlock({
     variant === "success"
       ? "border-success-border bg-success-bg"
       : variant === "danger"
-      ? "border-danger-border bg-danger-bg"
-      : "border-border bg-card",
+        ? "border-danger-border bg-danger-bg"
+        : "border-border bg-card",
   );
 
   return (
@@ -153,8 +157,8 @@ function PropertyBlock({
                     ? variant === "success"
                       ? "text-success-text"
                       : variant === "danger"
-                      ? "text-danger-text"
-                      : "text-foreground"
+                        ? "text-danger-text"
+                        : "text-foreground"
                     : "text-foreground",
                 )}
               >
@@ -219,7 +223,10 @@ function DetailsContent({
   oldProperties: ReturnType<typeof jsonToProperties>;
   newProperties: ReturnType<typeof jsonToProperties>;
 }) {
-  const { oldProperties: diffedOldProperties, newProperties: diffedNewProperties } =
+  const {
+    oldProperties: diffedOldProperties,
+    newProperties: diffedNewProperties,
+  } =
     item.changeType === MACHINE_HISTORY_CHANGE_TYPE.Updated
       ? getUpdatedPropertyStates(oldProperties, newProperties)
       : { oldProperties, newProperties };
@@ -240,9 +247,9 @@ function DetailsContent({
           />
         </div>
       ) : item.changeType === MACHINE_HISTORY_CHANGE_TYPE.Added ? (
-        <PropertyBlock title="Новое состояние" properties={newProperties} />
+        <PropertyBlock title="Добавлено" properties={newProperties} />
       ) : (
-        <PropertyBlock title="Старое состояние" properties={oldProperties} />
+        <PropertyBlock title="Удалено" properties={oldProperties} />
       )}
     </div>
   );

@@ -40,7 +40,7 @@ export const MachineHistory = ({
   const sortedItems = [...history.items].sort(
     (a, b) => new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime(),
   );
-  console.log("Sorted history items:", sortedItems);
+
   const changeWord = pluralizeRu(
     history.total,
     "изменение",
