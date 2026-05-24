@@ -1,4 +1,8 @@
+"use client";
+
 import { ToggleTheme } from "./toggle-theme";
+import { Badge } from "@/shared/ui/badge";
+import { useUser } from "@/shared/lib/user-context";
 
 interface HeaderProps {
   title: string;
@@ -7,6 +11,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ title, description, icon }: HeaderProps) => {
+  const user = useUser();
   return (
     <div className="sticky top-0 z-10 bg-background border-b">
       <div className="container  mx-auto px-4 lg:px-6 py-2 ">
@@ -23,8 +28,15 @@ export const Header = ({ title, description, icon }: HeaderProps) => {
             </div>
             <p className="text-sm text-muted-foreground">{description}</p>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-4">
             <ToggleTheme />
+            {user && (
+              <div className="flex items-center gap-2">
+                <Badge variant={user.isAdmin ? "destructive" : "default"}>
+                  {user.login}
+                </Badge>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -2,8 +2,9 @@
 
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { appRoutes } from "@/shared/constants/app-routes";
-import { setAuthCookies } from "@/shared/lib/auth/auth-server";
+import { setAuthCookies, setUserData } from "@/shared/lib/auth/auth-server";
 import { redirect } from "next/navigation";
+import type { AuthResponseDto } from "@/entities/user/auth-dto";
 
 export type LoginState = {
   error?: string;
@@ -38,6 +39,7 @@ export async function login(
   });
 
   if (!res.ok) {
+    console.error("Login failed with status", res);
     return {
       error: "Неверный логин или пароль",
       login,
@@ -45,9 +47,9 @@ export async function login(
     };
   }
 
-  const data = await res.json();
+  const data: AuthResponseDto = await res.json();
 
-  if (!data?.accessToken || !data?.refreshToken) {
+  if (!data?.accessToken?.token || !data?.refreshToken?.token) {
     return {
       error: "Сервер не мяукает((",
       login,
@@ -55,7 +57,13 @@ export async function login(
     };
   }
 
-  await setAuthCookies(data.accessToken, data.refreshToken);
+  await setAuthCookies(
+    data.accessToken.token,
+    data.refreshToken.token,
+    data.accessToken.expiresAt,
+    data.refreshToken.expiresAt,
+  );
+  await setUserData(data.user);
 
   redirect(appRoutes.home());
 }

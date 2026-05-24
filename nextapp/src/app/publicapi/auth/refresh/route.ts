@@ -4,7 +4,9 @@ import {
   clearAuthCookiesOnResponse,
   getRefreshToken,
   setAuthCookiesOnResponse,
+  setUserDataOnResponse,
 } from "@/shared/lib/auth/auth-server";
+import type { AuthResponseDto } from "@/entities/user/auth-dto";
 import { NextRequest, NextResponse } from "next/server";
 
 // /publicapi/auth/refresh
@@ -40,12 +42,19 @@ export async function GET(req: NextRequest) {
       return response;
     }
 
-    const data = await res.json();
+    const data: AuthResponseDto = await res.json();
     const redirectUrl = new URL(returnTo, appRoutes.abs.home());
     const response = NextResponse.redirect(redirectUrl);
 
     // Устанавливаем куки ОДИН раз и только на объект ответа
-    setAuthCookiesOnResponse(response, data.accessToken, data.refreshToken);
+    setAuthCookiesOnResponse(
+      response,
+      data.accessToken.token,
+      data.refreshToken.token,
+      data.accessToken.expiresAt,
+      data.refreshToken.expiresAt,
+    );
+    setUserDataOnResponse(response, data.user);
     console.log(
       "[/publicapi/auth/refresh] - success - got new tokens, setting cookies on response and redirecting back to",
       redirectUrl,
