@@ -1,5 +1,8 @@
 import { DiskPropertyDto } from "@/entities/disk/dto/disk-dto";
-import { getSmartDataTransferLabels } from "@/shared/lib/format-smart-data-units";
+import {
+  normalizePropertyName,
+  enrichSmartSummaryWithComputedProperties,
+} from "@/shared/lib/format-smart-data-units";
 import { Card, CardContent } from "@/shared/ui/card";
 
 type SmartSummaryItem = {
@@ -44,20 +47,11 @@ const smartSummaryConfig: SmartSummaryConfigItem[] = [
     visibleFor: "ssd",
   },
   {
-    key: "total_lbas_written",
-    label: "Записано данных (GB)",
-    propertyAliases: ["total_lbas_written"],
-    visibleFor: "ssd",
-  },
-  {
     key: "ssdWear",
     label: "Износ SSD (%)",
     propertyAliases: ["percentage_used", "percentageused", "lifetime_left"],
   },
 ];
-
-const normalizePropertyName = (name: string) =>
-  name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
 const normalizeDiskType = (diskType?: string) =>
   diskType?.trim().toLowerCase() ?? "";
@@ -66,6 +60,7 @@ const buildSmartSummaryItems = (
   properties: DiskPropertyDto[],
   diskType?: string,
 ): SmartSummaryItem[] => {
+  // Build normalized property map once for all lookups
   const propertiesByName = new Map(
     properties.map((property) => [
       normalizePropertyName(property.propertyName),
@@ -75,6 +70,7 @@ const buildSmartSummaryItems = (
 
   const normalizedDiskType = normalizeDiskType(diskType);
 
+  // Process config-defined properties
   const summaryItems = smartSummaryConfig.reduce<SmartSummaryItem[]>(
     (acc, { key, label, propertyAliases, visibleFor }) => {
       if (visibleFor && normalizedDiskType !== visibleFor) {
@@ -94,36 +90,8 @@ const buildSmartSummaryItems = (
     [],
   );
 
-  const { written: dataWritten, read: dataRead } =
-    getSmartDataTransferLabels(properties);
-
-  if (dataWritten) {
-    summaryItems.push({
-      key: "dataUnitsWritten",
-      label: "Записано данных",
-      value: dataWritten,
-    });
-  }
-
-  if (dataRead) {
-    summaryItems.push({
-      key: "dataUnitsRead",
-      label: "Прочитано данных",
-      value: dataRead,
-    });
-  }
-
-  const unsafeShutdowns = propertiesByName.get(
-    normalizePropertyName("unsafe_shutdowns"),
-  );
-
-  if (unsafeShutdowns) {
-    summaryItems.push({
-      key: "unsafeShutdowns",
-      label: "Небезопасные отключения",
-      value: unsafeShutdowns,
-    });
-  }
+  // Add computed properties using pre-built map (no re-parsing)
+  enrichSmartSummaryWithComputedProperties(propertiesByName, summaryItems);
 
   return summaryItems;
 };
