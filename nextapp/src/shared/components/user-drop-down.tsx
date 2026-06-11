@@ -32,7 +32,7 @@ export function UserDropDown() {
         <div>
           {/* large */}
           <Button
-            className="hidden md:flex"
+            className="hidden md:flex rounded-full"
             variant={user?.isAdmin ? "destructive" : "default"}
           >
             <User />
@@ -41,7 +41,7 @@ export function UserDropDown() {
 
           {/* small */}
           <Button
-            className=" md:hidden shrink-0"
+            className=" md:hidden shrink-0 rounded-full"
             size={"icon"}
             variant={user?.isAdmin ? "destructive" : "default"}
           >
