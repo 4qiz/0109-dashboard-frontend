@@ -1,6 +1,6 @@
 "use client";
 
-import { Database, LogOut, Menu, X } from "lucide-react";
+import { Database, Menu, X } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
@@ -9,7 +9,6 @@ import { Badge } from "@/shared/ui/badge";
 import { cn } from "@/shared/lib/utils";
 import { appRoutes } from "../constants/app-routes";
 import { ClusterListDto } from "@/entities/cluster/dto/cluster-list-dto";
-import { logout } from "@/features/auth/actions/logout";
 
 interface SidebarContentProps {
   clusters: { clusterId: number; name: string }[];
@@ -23,10 +22,6 @@ const SidebarContent = ({
   onLinkClick,
 }: SidebarContentProps) => {
   const hasClusters = clusters.length > 0;
-
-  const handleLogout = () => {
-    logout();
-  };
 
   return (
     <div className="flex flex-col h-full">
@@ -97,18 +92,6 @@ const SidebarContent = ({
             })}
           </nav>
         )}
-      </div>
-
-      {/* Logout button */}
-      <div className="p-3">
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2 "
-          onClick={handleLogout}
-        >
-          <LogOut className="h-4 w-4" />
-          Выйти из системы
-        </Button>
       </div>
     </div>
   );

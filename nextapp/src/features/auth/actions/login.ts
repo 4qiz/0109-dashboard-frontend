@@ -65,5 +65,5 @@ export async function login(
   );
   await setUserData(data.user);
 
-  redirect(appRoutes.home());
+  redirect(appRoutes.home);
 }

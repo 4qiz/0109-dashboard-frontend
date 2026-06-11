@@ -36,7 +36,7 @@ async function performRefresh(refreshToken: string): Promise<AuthResponseDto> {
 export async function GET(req: NextRequest) {
   const refreshToken = await getRefreshToken();
 
-  const returnTo = req.nextUrl.searchParams.get("returnTo") || appRoutes.home();
+  const returnTo = req.nextUrl.searchParams.get("returnTo") || appRoutes.home;
 
   if (!refreshToken) {
     return NextResponse.redirect(new URL(appRoutes.abs.login()));

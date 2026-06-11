@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
 
 const ClustersPage = async () => {
-  redirect(appRoutes.home());
+  redirect(appRoutes.home);
 };
 
 export default ClustersPage;

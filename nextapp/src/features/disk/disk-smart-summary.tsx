@@ -52,7 +52,7 @@ const smartSummaryConfig: SmartSummaryConfigItem[] = [
   {
     key: "ssdWear",
     label: "Износ SSD (%)",
-    propertyAliases: ["percentage_used", "percentageused"],
+    propertyAliases: ["percentage_used", "percentageused", "lifetime_left"],
   },
 ];
 

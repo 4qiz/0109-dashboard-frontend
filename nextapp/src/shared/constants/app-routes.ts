@@ -2,7 +2,7 @@ export const APP_BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ?? "Missing environment variable";
 
 export const appRoutes = {
-  home: () => `/`,
+  home: `/`,
   login: `/login`,
   clusters: () => `/clusters`,
   clustersId: (id: number) => `/clusters/${id}`,
