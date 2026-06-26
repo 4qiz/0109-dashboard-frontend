@@ -1,4 +1,5 @@
 import { getDiskAsync } from "@/entities/disk/services/get-disk";
+import { getDiskPropsAsync } from "@/entities/disk/services/get-disk-props";
 import { getClusterAsync } from "@/entities/cluster/services/get-cluster";
 import { DiskDetails } from "@/features/disk/disk-details";
 import { MessageCard } from "@/shared/components/message-card";
@@ -15,9 +16,10 @@ const DiskPage = async ({
   const clusterIdNum = Number(clusterId);
   const machineIdNum = Number(machineId);
 
-  const [{ disk, error: diskError }, { cluster }] = await Promise.all([
+  const [{ disk, error: diskError }, { cluster }, { props: diskProps }] = await Promise.all([
     getDiskAsync(Number(diskId)),
     getClusterAsync(clusterIdNum),
+    getDiskPropsAsync(Number(diskId)),
   ]);
 
   if (!disk || diskError) {
@@ -35,6 +37,7 @@ const DiskPage = async ({
   return (
     <DiskDetails
       disk={disk}
+      diskProps={diskProps}
       clusterId={clusterIdNum}
       machineId={machineIdNum}
       machineHostname={machineHostname}

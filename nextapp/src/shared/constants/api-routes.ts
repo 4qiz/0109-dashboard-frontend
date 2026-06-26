@@ -11,4 +11,5 @@ export const apiRoutes = {
   getMachineHistory: (id: number, take = 100, skip = 0) =>
     `${API_BASE_URL}/api/Machine/${id}/History?take=${take}&skip=${skip}`,
   getDisk: (id: number) => `${API_BASE_URL}/api/Disks/${id}`,
+  getDiskProps: (id: number) => `${API_BASE_URL}/api/Disks/${id}/UnifiedProps`,
 };

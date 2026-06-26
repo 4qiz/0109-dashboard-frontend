@@ -1,4 +1,4 @@
-import { DiskDto } from "@/entities/disk/dto/disk-dto";
+import { DiskDto, DiskPropertyDto } from "@/entities/disk/dto/disk-dto";
 import { PropertyList } from "@/shared/components/property-list";
 import { Badge } from "@/shared/ui/badge";
 import { Database, Disc3, Info } from "lucide-react";
@@ -25,12 +25,14 @@ const getOperationalColor = (status: string) => {
 
 export const DiskDetails = ({
   disk,
+  diskProps,
   clusterId,
   machineId,
   machineHostname,
   clusterName,
 }: {
   disk: DiskDto;
+  diskProps: DiskPropertyDto[];
   clusterId: number;
   machineId: number;
   machineHostname: string;
@@ -70,7 +72,8 @@ export const DiskDetails = ({
               {disk.operationalStatus}
             </Badge>
           </div>
-          <DiskSmartSummary properties={properties} diskType={disk.diskType} />
+          {/* here display diskProps */}
+          <DiskSmartSummary diskProps={diskProps} />
           {disk.masterComputer && (
             <p className="text-sm text-muted-foreground">
               Установлен на:{" "}
@@ -79,7 +82,7 @@ export const DiskDetails = ({
           )}
         </div>
 
-        {/* Disk Volumes */}
+        {/* Disk Volumes Charts*/}
         {disk.diskVolumes && disk.diskVolumes.length > 0 && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">

@@ -1,122 +1,29 @@
 import { DiskPropertyDto } from "@/entities/disk/dto/disk-dto";
-import {
-  normalizePropertyName,
-  enrichSmartSummaryWithComputedProperties,
-} from "@/shared/lib/format-smart-data-units";
+
 import { Card, CardContent } from "@/shared/ui/card";
 
-type SmartSummaryItem = {
-  key: string;
-  label: string;
-  value: string;
-};
-
-type SmartSummaryConfigItem = {
-  key: string;
-  label: string;
-  propertyAliases: string[];
-  visibleFor?: "hdd" | "ssd";
-};
-
-const smartSummaryConfig: SmartSummaryConfigItem[] = [
-  {
-    key: "powerOnHours",
-    label: "Рабочее время (ч)",
-    propertyAliases: ["power_on_hours", "poweronhours"],
-  },
-  {
-    key: "powerCycles",
-    label: "Кол-во включений",
-    propertyAliases: ["power_cycle_count", "power_cycles", "powercyclecount"],
-  },
-  {
-    key: "reallocatedSectors",
-    label: "Переназначено секторов (HDD)",
-    propertyAliases: ["reallocated_sector_ct", "reallocatedsectorct"],
-    visibleFor: "hdd",
-  },
-
-  {
-    key: "mediaErrors",
-    label: "Ошибки целостности данных (SSD)",
-    propertyAliases: [
-      "media_errors",
-      "mediaanddataintegrityerrors",
-      "mediaanddataintegrityerrorcount",
-    ],
-    visibleFor: "ssd",
-  },
-  {
-    key: "ssdWear",
-    label: "Износ SSD (%)",
-    propertyAliases: ["percentage_used", "percentageused", "lifetime_left"],
-  },
-];
-
-const normalizeDiskType = (diskType?: string) =>
-  diskType?.trim().toLowerCase() ?? "";
-
-const buildSmartSummaryItems = (
-  properties: DiskPropertyDto[],
-  diskType?: string,
-): SmartSummaryItem[] => {
-  // Build normalized property map once for all lookups
-  const propertiesByName = new Map(
-    properties.map((property) => [
-      normalizePropertyName(property.propertyName),
-      property.value,
-    ]),
-  );
-
-  const normalizedDiskType = normalizeDiskType(diskType);
-
-  // Process config-defined properties
-  const summaryItems = smartSummaryConfig.reduce<SmartSummaryItem[]>(
-    (acc, { key, label, propertyAliases, visibleFor }) => {
-      if (visibleFor && normalizedDiskType !== visibleFor) {
-        return acc;
-      }
-
-      const value = propertyAliases
-        .map((alias) => propertiesByName.get(normalizePropertyName(alias)))
-        .find(Boolean);
-
-      if (value) {
-        acc.push({ key, label, value });
-      }
-
-      return acc;
-    },
-    [],
-  );
-
-  // Add computed properties using pre-built map (no re-parsing)
-  enrichSmartSummaryWithComputedProperties(propertiesByName, summaryItems);
-
-  return summaryItems;
-};
-
 export const DiskSmartSummary = ({
-  properties,
-  diskType,
+  diskProps,
 }: {
-  properties: DiskPropertyDto[];
-  diskType?: string;
+  diskProps: DiskPropertyDto[];
 }) => {
-  const smartSummaryItems = buildSmartSummaryItems(properties, diskType);
-
-  if (smartSummaryItems.length === 0) {
+  if (diskProps.length === 0) {
     return null;
   }
 
   return (
     <div className="space-y-4">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {smartSummaryItems.map((item) => (
-          <Card key={item.key} className="py-3">
+        {diskProps.map((prop) => (
+          <Card
+            key={prop.propertyName}
+            className={`py-3 ${prop.isStale ? "opacity-60 bg-muted" : ""}`}
+          >
             <CardContent className="px-4">
-              <p className="text-xs text-muted-foreground">{item.label}</p>
-              <p className="text-lg font-semibold">{item.value}</p>
+              <p className="text-xs text-muted-foreground">
+                {prop.displayName}
+              </p>
+              <p className="text-lg font-semibold">{prop.value}</p>
             </CardContent>
           </Card>
         ))}
