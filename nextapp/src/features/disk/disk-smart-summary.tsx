@@ -1,4 +1,5 @@
 import { DiskPropertyDto } from "@/entities/disk/dto/disk-dto";
+import { cn } from "@/shared/lib/utils";
 
 import { Card, CardContent } from "@/shared/ui/card";
 
@@ -17,7 +18,10 @@ export const DiskSmartSummary = ({
         {diskProps.map((prop) => (
           <Card
             key={prop.propertyName}
-            className={`py-3 ${prop.isStale ? "opacity-60 bg-muted" : ""}`}
+            className={cn(
+              `py-3 `,
+              prop.isStale && "bg-muted text-muted-foreground",
+            )}
           >
             <CardContent className="px-4">
               <p className="text-xs text-muted-foreground">

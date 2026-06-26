@@ -1,6 +1,6 @@
 export interface DiskPropertyDto {
   propertyName: string;
-  displayName: string;
+  displayName?: string;
   value: string;
   isStale: boolean;
 }

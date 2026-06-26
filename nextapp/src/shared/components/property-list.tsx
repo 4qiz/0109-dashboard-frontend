@@ -4,9 +4,10 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { cn } from "@/shared/lib/utils";
 
 interface PropertyListProps {
-  properties: Array<{ propertyName: string; value: string }>;
+  properties: Array<{ propertyName: string; value: string; isStale?: boolean }>;
   title?: string;
   collapsed?: boolean; // по умолчанию false
 }
@@ -47,7 +48,12 @@ export function PropertyList({
             {properties.map((prop, index) => (
               <div key={index}>
                 {index > 0 && <Separator className="my-3" />}
-                <div className="space-y-1">
+                <div
+                  className={cn(
+                    `space-y-1 `,
+                    prop.isStale && " text-muted-foreground",
+                  )}
+                >
                   <p className="text-sm text-muted-foreground">
                     {formatPropertyName(prop.propertyName)}
                   </p>
