@@ -5,12 +5,15 @@ import { appRoutes } from "@/shared/constants/app-routes";
 import { setAuthCookies, setUserData } from "@/shared/lib/auth/auth-server";
 import { redirect } from "next/navigation";
 import type { AuthResponseDto } from "@/entities/user/auth-dto";
+import { createLogger } from "@/shared/lib/logger";
 
 export type LoginState = {
   error?: string;
   login?: string;
   password?: string;
 };
+
+const logger = createLogger("login-action");
 
 export async function login(
   prevState: LoginState,
@@ -19,7 +22,7 @@ export async function login(
   const login = formData.get("login")?.toString() || "";
   const password = formData.get("password")?.toString() || "";
 
-  console.log("login in, login:", login);
+  logger.info("Attempting login", { login });
 
   if (!login || !password) {
     return {

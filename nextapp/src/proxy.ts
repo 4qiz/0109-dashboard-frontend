@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { appRoutes } from "./shared/constants/app-routes";
+import { createLogger } from "@/shared/lib/logger";
+
+const logger = createLogger("proxy");
 
 export function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
@@ -7,9 +10,11 @@ export function proxy(req: NextRequest) {
   const access = req.cookies.get("accessToken")?.value;
   const refresh = req.cookies.get("refreshToken")?.value;
 
-  console.log(
-    `[proxy] incoming request ${new Date().toISOString()} path=${pathname} access(len=${access?.length || 0}) refresh(len=${refresh?.length || 0})`,
-  );
+  logger.info("incoming request", {
+    path: pathname,
+    accessLength: access?.length || 0,
+    refreshLength: refresh?.length || 0,
+  });
 
   const isLoginPage = pathname === appRoutes.login;
 
@@ -17,25 +22,19 @@ export function proxy(req: NextRequest) {
     const returnTo = pathname + search;
     const url =
       appRoutes.abs.refresh() + "?returnTo=" + encodeURIComponent(returnTo);
-    console.log(
-      "[proxy] - redirect to refresh (no access, yes refresh) -",
-      url,
-    );
+    logger.info("redirect to refresh", { url });
     return NextResponse.redirect(url);
   }
 
   if (!access && !refresh && !isLoginPage) {
     const url = appRoutes.abs.login();
-    console.log("[proxy] - redirect to login - no access, no refresh", url);
+    logger.info("redirect to login", { reason: "no access, no refresh", url });
     return NextResponse.redirect(url);
   }
 
   if (access && isLoginPage) {
     const url = appRoutes.abs.home();
-    console.log(
-      "[proxy] - redirect to home - with access try to open login page",
-      url,
-    );
+    logger.info("redirect to home", { reason: "access and login page", url });
     return NextResponse.redirect(url);
   }
 

@@ -1,6 +1,9 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { UserDto } from "@/entities/user/auth-dto";
+import { createLogger } from "@/shared/lib/logger";
+
+const logger = createLogger("auth-server");
 
 export const ACCESS_COOKIE = "accessToken";
 export const REFRESH_COOKIE = "refreshToken";
@@ -27,9 +30,10 @@ export const setAuthCookies = async (
     ? Math.floor((new Date(refreshExpiresAt).getTime() - Date.now()) / 1000)
     : REFRESH_MAX_AGE;
 
-  console.log(
-    `[auth-server] setAuthCookies called — access(len=${access?.length || 0}) refresh(len=${refresh?.length || 0})`,
-  );
+  logger.info("setAuthCookies called", {
+    accessLength: access?.length || 0,
+    refreshLength: refresh?.length || 0,
+  });
 
   cookieStore.set(ACCESS_COOKIE, access, {
     httpOnly: true,
@@ -65,9 +69,10 @@ export const setAuthCookiesOnResponse = (
       ? Math.floor((new Date(refreshExpiresAt).getTime() - Date.now()) / 1000)
       : REFRESH_MAX_AGE;
 
-    console.log(
-      `[auth-server] setAuthCookiesOnResponse — access(len=${access?.length || 0}) refresh(len=${refresh?.length || 0})`,
-    );
+    logger.info("setAuthCookiesOnResponse called", {
+      accessLength: access?.length || 0,
+      refreshLength: refresh?.length || 0,
+    });
 
     res.cookies.set(ACCESS_COOKIE, access, {
       httpOnly: true,
@@ -85,7 +90,7 @@ export const setAuthCookiesOnResponse = (
       maxAge: refreshMaxAge,
     });
   } catch (e) {
-    console.error("[auth-server] setAuthCookiesOnResponse error:", e);
+    logger.error("setAuthCookiesOnResponse error", e);
   }
 };
 
@@ -106,7 +111,7 @@ export const setUserData = async (user: UserDto) => {
   const cookieStore = await cookies();
   const userJson = JSON.stringify(user);
 
-  console.log(`[auth-server] setUserData called — login=${user.login}`);
+  logger.info("setUserData called", { login: user.login });
 
   cookieStore.set(USER_COOKIE, userJson, {
     httpOnly: true,
@@ -121,9 +126,7 @@ export const setUserDataOnResponse = (res: NextResponse, user: UserDto) => {
   try {
     const userJson = JSON.stringify(user);
 
-    console.log(
-      `[auth-server] setUserDataOnResponse called — login=${user.login}`,
-    );
+    logger.info("setUserDataOnResponse called", { login: user.login });
 
     res.cookies.set(USER_COOKIE, userJson, {
       httpOnly: true,
@@ -133,7 +136,7 @@ export const setUserDataOnResponse = (res: NextResponse, user: UserDto) => {
       maxAge: 60 * 60 * 24 * 7, // 7 days
     });
   } catch (e) {
-    console.error("[auth-server] setUserDataOnResponse error:", e);
+    logger.error("setUserDataOnResponse error", e);
   }
 };
 
@@ -148,36 +151,36 @@ export const getUser = async (): Promise<UserDto | null> => {
   try {
     return JSON.parse(userCookie) as UserDto;
   } catch (e) {
-    console.error("[auth-server] Failed to parse user cookie:", e);
+    logger.error("Failed to parse user cookie", e);
     return null;
   }
 };
 
 export const clearUserData = async () => {
   const cookieStore = await cookies();
-  console.log("[auth-server] clearUserData called — deleting user cookie");
+  logger.info("clearUserData called", { action: "deleting user cookie" });
   cookieStore.delete(USER_COOKIE);
 };
 
 export const clearUserDataOnResponse = (res: NextResponse) => {
-  console.log(
-    "[auth-server] clearUserDataOnResponse called — deleting user cookie",
-  );
+  logger.info("clearUserDataOnResponse called", {
+    action: "deleting user cookie",
+  });
   res.cookies.set(USER_COOKIE, "", { path: "/", maxAge: 0 });
 };
 
 export const clearAuthCookies = async () => {
   const cookieStore = await cookies();
-  console.log("[auth-server] clearAuthCookies called — deleting auth cookies");
+  logger.info("clearAuthCookies called", { action: "deleting auth cookies" });
   cookieStore.delete(ACCESS_COOKIE);
   cookieStore.delete(REFRESH_COOKIE);
   cookieStore.delete(USER_COOKIE);
 };
 
 export const clearAuthCookiesOnResponse = (res: NextResponse) => {
-  console.log(
-    "[auth-server] clearAuthCookiesOnResponse called — deleting auth cookies",
-  );
+  logger.info("clearAuthCookiesOnResponse called", {
+    action: "deleting auth cookies",
+  });
   res.cookies.set(ACCESS_COOKIE, "", { path: "/", maxAge: 0 });
   res.cookies.set(REFRESH_COOKIE, "", { path: "/", maxAge: 0 });
   res.cookies.set(USER_COOKIE, "", { path: "/", maxAge: 0 });

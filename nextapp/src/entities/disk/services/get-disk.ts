@@ -1,6 +1,9 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { DiskDto } from "../dto/disk-dto";
 import { authFetch } from "@/shared/lib/auth/auth-fetch";
+import { createLogger } from "@/shared/lib/logger";
+
+const logger = createLogger("getDisk");
 
 export const getDiskAsync = async (
   id: number,
@@ -9,10 +12,10 @@ export const getDiskAsync = async (
     const response = await authFetch(apiRoutes.getDisk(id));
 
     if (!response.ok) {
-      console.error(
-        "[getDisk] -",
-        `${response.status} - ${response.statusText}`,
-      );
+      logger.error("failed fetching disk", {
+        status: response.status,
+        statusText: response.statusText,
+      });
       return {
         disk: null,
         error: `Ошибка при получении диска`,
@@ -26,7 +29,7 @@ export const getDiskAsync = async (
     const data = (await response.json()) as DiskDto;
     return { disk: data || null };
   } catch (err) {
-    console.error("[getDisk] - ", err);
+    logger.error("getDisk exception", err);
     return { disk: null, error: "Ошибка при получении диска" };
   }
 };

@@ -1,6 +1,9 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { MachineDto } from "../dto/machine-dto";
 import { authFetch } from "@/shared/lib/auth/auth-fetch";
+import { createLogger } from "@/shared/lib/logger";
+
+const logger = createLogger("getMachine");
 
 export const getMachineAsync = async (
   id: number,
@@ -9,10 +12,10 @@ export const getMachineAsync = async (
     const response = await authFetch(apiRoutes.getMachine(id));
 
     if (!response.ok) {
-      console.error(
-        "[getMachine] -",
-        `${response.status} - ${response.statusText}`,
-      );
+      logger.error("failed fetching machine", {
+        status: response.status,
+        statusText: response.statusText,
+      });
       return {
         machine: null,
         error: `Ошибка при получении машины`,
@@ -22,7 +25,7 @@ export const getMachineAsync = async (
     const data = (await response.json()) as MachineDto;
     return { machine: data || null };
   } catch (err) {
-    console.error("[getMachine] - ", err);
+    logger.error("getMachine exception", err);
     return { machine: null, error: "Ошибка при получении машины" };
   }
 };

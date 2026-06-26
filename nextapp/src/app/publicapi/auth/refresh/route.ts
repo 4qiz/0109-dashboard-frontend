@@ -5,6 +5,9 @@ import {
   setAuthCookiesOnResponse,
   setUserDataOnResponse,
 } from "@/shared/lib/auth/auth-server";
+import { createLogger } from "@/shared/lib/logger";
+
+const logger = createLogger("refresh-route");
 
 import {
   getRefreshLock,
@@ -75,7 +78,7 @@ export async function GET(req: NextRequest) {
     );
     return response;
   } catch (e) {
-    console.error("[refresh] failed", e);
+    logger.error("refresh failed", e);
 
     return NextResponse.redirect(new URL(appRoutes.abs.login()));
   }

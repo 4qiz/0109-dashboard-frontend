@@ -1,6 +1,9 @@
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { authFetch } from "@/shared/lib/auth/auth-fetch";
 import { MachineHistoryDto } from "../dto/machine-history-dto";
+import { createLogger } from "@/shared/lib/logger";
+
+const logger = createLogger("getMachineHistory");
 
 export const getMachineHistoryAsync = async (
   id: number,
@@ -29,10 +32,10 @@ export const getMachineHistoryAsync = async (
         };
       }
 
-      console.error(
-        "[getMachineHistory] -",
-        `${response.status} - ${response.statusText}`,
-      );
+      logger.error("failed fetching machine history", {
+        status: response.status,
+        statusText: response.statusText,
+      });
       return {
         history: null,
         error: "Ошибка при получении истории изменений",
@@ -55,7 +58,7 @@ export const getMachineHistoryAsync = async (
     const data = (await response.json()) as MachineHistoryDto;
     return { history: data };
   } catch (err) {
-    console.error("[getMachineHistory] - ", err);
+    logger.error("getMachineHistory exception", err);
     return {
       history: null,
       error: "Ошибка при получении истории изменений",
