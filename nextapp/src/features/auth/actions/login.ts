@@ -42,7 +42,11 @@ export async function login(
   });
 
   if (!res.ok) {
-    console.error("Login failed with status", res);
+    logger.error("Login failed", {
+      login,
+      status: res.status,
+      statusText: res.statusText,
+    });
     return {
       error: "Неверный логин или пароль",
       login,
