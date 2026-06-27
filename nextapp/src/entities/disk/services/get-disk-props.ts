@@ -12,7 +12,7 @@ export const getDiskPropsAsync = async (
     const response = await authFetch(apiRoutes.getDiskProps(id));
 
     if (!response.ok) {
-      logger.error("failed fetching disk properties", {
+      logger.warn("failed fetching disk properties", {
         status: response.status,
         statusText: response.statusText,
       });

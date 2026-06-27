@@ -12,7 +12,7 @@ export const getDiskAsync = async (
     const response = await authFetch(apiRoutes.getDisk(id));
 
     if (!response.ok) {
-      logger.error("failed fetching disk", {
+      logger.warn("failed fetching disk", {
         status: response.status,
         statusText: response.statusText,
       });

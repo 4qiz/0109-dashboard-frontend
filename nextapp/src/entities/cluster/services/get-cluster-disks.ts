@@ -12,7 +12,7 @@ export const getClusterDisksAsync = async (
     const response = await authFetch(apiRoutes.getClusterDisks(clusterId));
 
     if (!response.ok) {
-      logger.error("failed fetching cluster disks", {
+      logger.warn("failed fetching cluster disks", {
         status: response.status,
         statusText: response.statusText,
       });

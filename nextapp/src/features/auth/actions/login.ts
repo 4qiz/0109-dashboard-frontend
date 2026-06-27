@@ -42,7 +42,7 @@ export async function login(
   });
 
   if (!res.ok) {
-    logger.error("Login failed", {
+    logger.warn("Login failed", {
       login,
       status: res.status,
       statusText: res.statusText,

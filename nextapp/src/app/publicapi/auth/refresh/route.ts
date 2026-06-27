@@ -1,3 +1,4 @@
+import { NextRequest, NextResponse } from "next/server";
 import { apiRoutes } from "@/shared/constants/api-routes";
 import { appRoutes } from "@/shared/constants/app-routes";
 import {
@@ -7,17 +8,14 @@ import {
 } from "@/shared/lib/auth/auth-server";
 import { createLogger } from "@/shared/lib/logger";
 
-const logger = createLogger("refresh-route");
-
 import {
   getRefreshLock,
   setRefreshLock,
   clearRefreshLock,
 } from "@/shared/lib/auth/refresh-lock";
-
 import type { AuthResponseDto } from "@/entities/user/auth-dto";
 
-import { NextRequest, NextResponse } from "next/server";
+const logger = createLogger("refresh-route");
 
 async function performRefresh(refreshToken: string): Promise<AuthResponseDto> {
   const res = await fetch(apiRoutes.refresh, {

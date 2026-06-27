@@ -12,7 +12,7 @@ export const getMachineAsync = async (
     const response = await authFetch(apiRoutes.getMachine(id));
 
     if (!response.ok) {
-      logger.error("failed fetching machine", {
+      logger.warn("failed fetching machine", {
         status: response.status,
         statusText: response.statusText,
       });

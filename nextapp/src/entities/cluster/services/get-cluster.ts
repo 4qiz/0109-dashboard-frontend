@@ -12,7 +12,7 @@ export const getClusterAsync = async (
     const response = await authFetch(apiRoutes.getCluster(id));
 
     if (!response.ok) {
-      logger.error("failed fetching cluster", {
+      logger.warn("failed fetching cluster", {
         status: response.status,
         statusText: response.statusText,
       });

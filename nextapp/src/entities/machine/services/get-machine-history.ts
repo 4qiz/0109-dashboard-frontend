@@ -32,7 +32,7 @@ export const getMachineHistoryAsync = async (
         };
       }
 
-      logger.error("failed fetching machine history", {
+      logger.warn("failed fetching machine history", {
         status: response.status,
         statusText: response.statusText,
       });

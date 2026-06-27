@@ -18,7 +18,7 @@ export const getClustersAsync = async (): Promise<{
     const response = await authFetch(apiRoutes.getClusters);
 
     if (!response.ok) {
-      logger.error("failed fetching clusters", {
+      logger.warn("failed fetching clusters", {
         status: response.status,
         statusText: response.statusText,
       });
